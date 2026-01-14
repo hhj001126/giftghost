@@ -31,12 +31,14 @@ export function Card({
     ].filter(Boolean).join(' ');
 
     const MotionComponent = interactive ? motion.div : 'div';
+    const hoverProp = interactive ? { whileHover: { scale: 1.02 } as const } : {};
+    const tapProp = interactive ? { whileTap: { scale: 0.98 } as const } : {};
 
     return (
         <MotionComponent
             className={classNames}
-            whileHover={interactive ? { scale: 1.02 } : undefined}
-            whileTap={interactive ? { scale: 0.98 } : undefined}
+            {...hoverProp}
+            {...tapProp}
             {...(props as any)}
         >
             {/* Click feedback overlay */}

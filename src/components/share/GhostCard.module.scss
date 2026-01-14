@@ -1,0 +1,232 @@
+@use '../../app/_design-tokens.scss' as *;
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(135deg, $bg-cream 0%, $bg-warm 100%);
+  border-radius: 32px;
+  padding: 28px;
+  overflow: hidden;
+  box-shadow: $shadow-float;
+
+  // Export-ready styling
+  image-rendering: pixelated;
+
+  @media (min-width: 640px) {
+    max-width: 450px;
+    padding: 36px;
+  }
+}
+
+.decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  .circleTopRight {
+    position: absolute;
+    top: -100px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: $color-coral;
+    opacity: 0.08;
+    border-radius: 50%;
+  }
+
+  .circleBottomLeft {
+    position: absolute;
+    bottom: -80px;
+    left: -40px;
+    width: 160px;
+    height: 160px;
+    background: $color-mint;
+    opacity: 0.12;
+    border-radius: 50%;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  .logo {
+    font-family: $font-display;
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-coral;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.personaBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, $color-coral, $color-coral-light);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: $font-display;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba($color-coral, 0.3);
+}
+
+.insightsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+
+  @media (min-width: 640px) {
+    gap: 16px;
+  }
+}
+
+.insightCard {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: $shadow-soft;
+
+  .insightHeader {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .insightIcon {
+    font-size: 16px;
+  }
+
+  .insightLabel {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $color-text-muted;
+  }
+
+  .insightText {
+    font-size: 13px;
+    line-height: 1.5;
+    color: $color-text-primary;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @media (min-width: 640px) {
+      font-size: 14px;
+      -webkit-line-clamp: 5;
+    }
+  }
+}
+
+.giftHero {
+  background: linear-gradient(135deg, $color-coral, $color-coral-light);
+  border-radius: 24px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+
+  @media (min-width: 640px) {
+    padding: 28px;
+    border-radius: 28px;
+  }
+}
+
+.giftBadge {
+  display: inline-block;
+  background: rgba(white, 0.25);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+
+  @media (min-width: 640px) {
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+}
+
+.giftName {
+  font-family: $font-display;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.3;
+
+  @media (min-width: 640px) {
+    font-size: 26px;
+  }
+}
+
+.reasonBox {
+  background: rgba(white, 0.2);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 10px;
+
+  @media (min-width: 640px) {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  p {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0;
+
+    @media (min-width: 640px) {
+      font-size: 15px;
+    }
+  }
+}
+
+.priceRange {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 16px;
+  color: $color-text-muted;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+
+  @media (min-width: 640px) {
+    gap: 16px;
+  }
+
+  button {
+    flex: 1;
+  }
+}

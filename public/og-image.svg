@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" style="font-family: system-ui, sans-serif;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFBF5"/>
+      <stop offset="100%" style="stop-color:#FFF5EB"/>
+    </linearGradient>
+    <linearGradient id="coralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF7F6E"/>
+      <stop offset="100%" style="stop-color:#FFA096"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="1000" cy="100" r="200" fill="#FF7F6E" opacity="0.08"/>
+  <circle cx="200" cy="530" r="150" fill="#96DEC3" opacity="0.15"/>
+  <circle cx="1100" cy="500" r="100" fill="#C3AFFF" opacity="0.12"/>
+
+  <!-- Main content -->
+  <text x="600" y="200" text-anchor="middle" font-size="72" font-weight="bold" fill="#FF7F6E">
+    🎁 GiftGhost
+  </text>
+
+  <text x="600" y="300" text-anchor="middle" font-size="32" fill="#3C3C43">
+    AI-Powered Gift Recommendations
+  </text>
+
+  <text x="600" y="380" text-anchor="middle" font-size="24" fill="#646469">
+    Find the perfect gift for everyone on your list
+  </text>
+
+  <!-- CTA Button -->
+  <rect x="450" y="430" width="300" height="80" rx="40" fill="url(#coralGrad)"/>
+  <text x="600" y="485" text-anchor="middle" font-size="28" font-weight="bold" fill="white">
+    Try It Free →
+  </text>
+
+  <!-- Footer -->
+  <text x="600" y="580" text-anchor="middle" font-size="16" fill="#A0A0A5">
+    giftghost.com
+  </text>
+</svg>

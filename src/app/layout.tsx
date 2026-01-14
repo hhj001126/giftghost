@@ -17,9 +17,65 @@ const bubblegum = Bubblegum_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "GiftGhost | Find the Perfect Gift",
-  description: "AI-powered gift recommendations made simple. Tell us about your friend, and we'll find the perfect gift idea!",
-  keywords: ["gift", "recommendation", "AI", "present", "friend"],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://giftghost.com'),
+  title: {
+    default: "GiftGhost | AI-Powered Gift Recommendations",
+    template: "%s | GiftGhost",
+  },
+  description: "The fun, easy way to find perfect gifts. Tell us about your friend and our AI will discover personalized gift ideas that they'll love!",
+  keywords: [
+    "gift ideas",
+    "gift recommendations",
+    "AI gift finder",
+    "personalized gifts",
+    "present ideas",
+    "birthday gifts",
+    "holiday shopping",
+    "gift helper",
+  ],
+  authors: [{ name: "GiftGhost Team" }],
+  creator: "GiftGhost",
+  publisher: "GiftGhost",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://giftghost.com",
+    siteName: "GiftGhost",
+    title: "GiftGhost | AI-Powered Gift Recommendations",
+    description: "The fun, easy way to find perfect gifts. Tell us about your friend and our AI will discover personalized gift ideas!",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GiftGhost - Find the Perfect Gift",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GiftGhost | AI-Powered Gift Recommendations",
+    description: "The fun, easy way to find perfect gifts!",
+    images: ["/og-image.png"],
+    creator: "@giftghost",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

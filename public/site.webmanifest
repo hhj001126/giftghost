@@ -1,0 +1,21 @@
+{
+  "name": "GiftGhost",
+  "short_name": "GiftGhost",
+  "description": "AI-powered gift recommendations made fun and easy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBF5",
+  "theme_color": "#FF7F6E",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
