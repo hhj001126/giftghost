@@ -1,0 +1,162 @@
+@use '../../app/_design-tokens.scss' as *;
+
+.background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+// Particle styles
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  &.coral20 {
+    background: rgba($color-coral, 0.2);
+  }
+
+  &.coral15 {
+    background: rgba($color-coral, 0.15);
+  }
+
+  &.mint20 {
+    background: rgba($color-mint, 0.2);
+  }
+
+  &.mint15 {
+    background: rgba($color-mint, 0.15);
+  }
+
+  &.lavender20 {
+    background: rgba($color-lavender, 0.2);
+  }
+
+  &.lavender15 {
+    background: rgba($color-lavender, 0.15);
+  }
+
+  &.sunshine20 {
+    background: rgba($color-sunshine, 0.2);
+  }
+
+  &.sunshine15 {
+    background: rgba($color-sunshine, 0.15);
+  }
+
+  // Size classes (in pixels)
+  &.size12 { width: 48px; height: 48px; }
+  &.size16 { width: 64px; height: 64px; }
+  &.size20 { width: 80px; height: 80px; }
+  &.size24 { width: 96px; height: 96px; }
+  &.size28 { width: 112px; height: 112px; }
+  &.size32 { width: 128px; height: 128px; }
+  &.size36 { width: 144px; height: 144px; }
+  &.size40 { width: 160px; height: 160px; }
+
+  @media (min-width: 640px) {
+    &.size12 { width: 64px; height: 64px; }
+    &.size16 { width: 80px; height: 80px; }
+    &.size20 { width: 96px; height: 96px; }
+    &.size24 { width: 112px; height: 112px; }
+    &.size28 { width: 128px; height: 128px; }
+    &.size32 { width: 160px; height: 160px; }
+    &.size36 { width: 176px; height: 176px; }
+    &.size40 { width: 192px; height: 192px; }
+  }
+}
+
+// Floating shapes container
+.shapesContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.shape {
+  position: absolute;
+  font-size: 1.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 2rem;
+  }
+}
+
+// Gradient mesh background
+.gradientMesh {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+
+  .gradientOrb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+
+    @media (min-width: 640px) {
+      filter: blur(120px);
+    }
+
+    &.orb1 {
+      top: -20%;
+      left: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(circle, rgba($color-coral, 0.4) 0%, transparent 70%);
+      animation: float-orb1 20s ease-in-out infinite;
+    }
+
+    &.orb2 {
+      bottom: -20%;
+      right: -10%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(circle, rgba($color-mint, 0.4) 0%, transparent 70%);
+      animation: float-orb2 25s ease-in-out infinite;
+    }
+
+    &.orb3 {
+      top: 40%;
+      left: 40%;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba($color-lavender, 0.3) 0%, transparent 70%);
+      animation: float-orb3 30s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes float-orb1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(5%, 5%) scale(1.05); }
+  50% { transform: translate(0, 10%) scale(1); }
+  75% { transform: translate(-5%, 5%) scale(0.95); }
+}
+
+@keyframes float-orb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-5%, 5%) scale(1.1); }
+  66% { transform: translate(5%, -5%) scale(1); }
+}
+
+@keyframes float-orb3 {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
+}
+
+// Noise texture overlay
+.noiseOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}

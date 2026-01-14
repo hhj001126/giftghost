@@ -1,0 +1,172 @@
+@use '../../../app/_design-tokens.scss' as *;
+
+// Base Card
+.card {
+  @include card-base;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  // Padding variants
+  &.paddingNone {
+    padding: 0;
+  }
+
+  &.paddingSm {
+    padding: 16px;
+
+    @media (min-width: 640px) {
+      padding: 20px;
+    }
+  }
+
+  &.paddingMd {
+    padding: 20px;
+
+    @media (min-width: 640px) {
+      padding: 24px;
+    }
+  }
+
+  &.paddingLg {
+    padding: 24px;
+
+    @media (min-width: 640px) {
+      padding: 32px;
+    }
+  }
+}
+
+// Variant: Elevated with gradient border glow
+.elevated {
+  background: white;
+  border: 2px solid rgba($color-coral, 0.2);
+  box-shadow: $shadow-medium;
+
+  .glowOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba($color-coral, 0.05) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+}
+
+// Variant: Glassmorphism
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: $shadow-soft;
+}
+
+// Variant: Hero card with gradient background
+.hero {
+  background: linear-gradient(135deg, $color-coral 0%, $color-coral-light 100%);
+  color: white;
+  box-shadow: $shadow-float;
+
+  .decorativeCircle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+
+    &.topRight {
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+
+      @media (min-width: 640px) {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    &.bottomLeft {
+      bottom: -40px;
+      left: -40px;
+      width: 120px;
+      height: 120px;
+
+      @media (min-width: 640px) {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  }
+
+  .contentWrapper {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Variant: Insight card (for RevealScene)
+.insight {
+  background: white;
+  border-radius: 24px;
+  box-shadow: $shadow-medium;
+  padding: 20px;
+
+  @media (min-width: 640px) {
+    padding: 24px;
+  }
+}
+
+// Interactive hover effects
+.interactive {
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Breathing animation
+.breathing {
+  animation: breathe 3s ease-in-out infinite;
+  transform-origin: center;
+
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.008);
+    }
+  }
+}
+
+// Inner content wrapper
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+// Click feedback overlay
+.clickFeedback {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+
+  .interactive:active & {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,108 @@
+@use '../../../app/_design-tokens.scss' as *;
+
+.sceneWrapper {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  @media (min-width: 640px) {
+    padding: 0 24px;
+  }
+
+  // Centering variant
+  &.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 480px;
+  }
+
+  // Full width variant
+  &.fullWidth {
+    max-width: 100%;
+  }
+}
+
+// Fade transition wrapper
+.fadeWrapper {
+  width: 100%;
+}
+
+// Scene enter animation
+.sceneEnter {
+  animation: sceneEnter 0.5s ease-out forwards;
+
+  @keyframes sceneEnter {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+.sceneExit {
+  animation: sceneExit 0.3s ease-in forwards;
+
+  @keyframes sceneExit {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+  }
+}
+
+// Loading state
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+// Skeleton loading animation
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $color-soft 25%,
+    rgba(255, 127, 110, 0.1) 50%,
+    $color-soft 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonLoading 1.5s infinite;
+  border-radius: 12px;
+
+  @keyframes skeletonLoading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+
+// Blur transition
+.blurTransition {
+  filter: blur(0px);
+  transition: filter 0.4s ease;
+
+  &.exiting {
+    filter: blur(10px);
+  }
+}
+
+// Stagger animations (defined here but used in TypeScript)
+.staggerChild {
+  transition: all 0.4s ease;
+}

@@ -1,0 +1,260 @@
+@use '../../app/_design-tokens.scss' as *;
+
+.thinkingScene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// Main Animation Container
+.animationContainer {
+  position: relative;
+  margin-bottom: 40px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 48px;
+  }
+}
+
+// Bouncing Gift Box
+.giftContainer {
+  position: relative;
+  width: 128px;
+  height: 128px;
+
+  @media (min-width: 640px) {
+    width: 144px;
+    height: 144px;
+  }
+}
+
+.giftBody {
+  position: absolute;
+  inset: 16px;
+  background: $gradient-coral;
+  border-radius: 24px;
+  box-shadow: $shadow-float;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  svg {
+    width: 48px;
+    height: 48px;
+    color: white;
+
+    @media (min-width: 640px) {
+      width: 56px;
+      height: 56px;
+    }
+  }
+}
+
+.ribbon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: $color-sunshine;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+// Rotating Emoji
+.rotatingEmoji {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 1.75rem;
+    top: -36px;
+  }
+}
+
+// Orbiting Sparkles
+.orbitingSparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sparkleOrbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $color-sunshine;
+
+    @media (min-width: 640px) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Progress Ring
+.progressContainer {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 16px;
+
+  @media (min-width: 640px) {
+    width: 180px;
+    height: 20px;
+  }
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, $color-coral, $color-sunshine, $color-mint);
+  border-radius: 9999px;
+  transition: width 0.1s ease;
+}
+
+// Status Text
+.statusContainer {
+  margin-bottom: 32px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 40px;
+  }
+}
+
+.magicText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: $color-coral;
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-weight: 600;
+  margin-bottom: 16px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    @media (min-width: 640px) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.logContainer {
+  height: 32px;
+  overflow: hidden;
+  position: relative;
+}
+
+.logText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body, system-ui);
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+}
+
+// Fun Facts Card
+.funFactCard {
+  @include card-base;
+  padding: 24px;
+  max-width: 320px;
+  margin-bottom: 24px;
+
+  @media (min-width: 640px) {
+    padding: 32px;
+    max-width: 360px;
+  }
+}
+
+.funFactHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $color-sunshine;
+
+    @media (min-width: 640px) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  span {
+    font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: $color-text-primary;
+
+    @media (min-width: 640px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.funFactContent {
+  font-family: var(--font-body, system-ui);
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+  line-height: 1.6;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .highlight {
+    color: $color-coral;
+    font-weight: 600;
+  }
+}
+
+// Encouragement Dots
+.encouragementDots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+
+  @media (min-width: 640px) {
+    margin-top: 32px;
+  }
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba($color-coral, 0.4);
+}

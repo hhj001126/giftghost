@@ -1,0 +1,168 @@
+@use '../../app/_design-tokens.scss' as *;
+
+.stage {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: $color-cream;
+}
+
+// Main Content
+.mainContent {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+
+  @media (min-width: 640px) {
+    padding: 32px;
+  }
+}
+
+// Background Particles Container
+.particleContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  &.coral20 {
+    background: rgba($color-coral, 0.2);
+  }
+
+  &.coral15 {
+    background: rgba($color-coral, 0.15);
+  }
+
+  &.mint20 {
+    background: rgba($color-mint, 0.2);
+  }
+
+  &.mint15 {
+    background: rgba($color-mint, 0.15);
+  }
+
+  &.lavender20 {
+    background: rgba($color-lavender, 0.2);
+  }
+
+  &.lavender15 {
+    background: rgba($color-lavender, 0.15);
+  }
+
+  &.sunshine20 {
+    background: rgba($color-sunshine, 0.2);
+  }
+
+  &.sunshine15 {
+    background: rgba($color-sunshine, 0.15);
+  }
+
+  // Sizes
+  &.size12 {
+    width: 48px;
+    height: 48px;
+
+    @media (min-width: 640px) {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  &.size16 {
+    width: 64px;
+    height: 64px;
+
+    @media (min-width: 640px) {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &.size20 {
+    width: 80px;
+    height: 80px;
+
+    @media (min-width: 640px) {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
+  &.size24 {
+    width: 96px;
+    height: 96px;
+
+    @media (min-width: 640px) {
+      width: 112px;
+      height: 112px;
+    }
+  }
+
+  &.size28 {
+    width: 112px;
+    height: 112px;
+
+    @media (min-width: 640px) {
+      width: 128px;
+      height: 128px;
+    }
+  }
+
+  &.size32 {
+    width: 128px;
+    height: 128px;
+
+    @media (min-width: 640px) {
+      width: 160px;
+      height: 160px;
+    }
+  }
+
+  &.size36 {
+    width: 144px;
+    height: 144px;
+
+    @media (min-width: 640px) {
+      width: 176px;
+      height: 176px;
+    }
+  }
+
+  &.size40 {
+    width: 160px;
+    height: 160px;
+
+    @media (min-width: 640px) {
+      width: 192px;
+      height: 192px;
+    }
+  }
+}
+
+// Floating Shapes Container
+.shapesContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  font-size: 1.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 2rem;
+  }
+}
