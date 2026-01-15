@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, RefreshCw, Share2, ExternalLink, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Button, Card, Badge, StaggerContainer, StaggerItem } from '@/components/ui';
+import { useI18n } from '@/i18n';
 import styles from './RevealScene.module.scss';
 
 interface InsightResult {
@@ -80,12 +81,12 @@ function InsightCard({
 }
 
 // Gift hero card component
-function GiftHeroCard({ result }: { result: InsightResult }) {
+function GiftHeroCard({ result, t }: { result: InsightResult; t: any }) {
     return (
         <Card variant="hero" padding="lg" className={styles.giftHeroCard}>
             <div className={styles.cardHeader}>
                 <Trophy size={20} />
-                <span>PERFECT GIFT</span>
+                <span>{t.reveal.giftCard.label}</span>
             </div>
 
             <h3 className={styles.giftTitle}>
@@ -98,7 +99,7 @@ function GiftHeroCard({ result }: { result: InsightResult }) {
 
             {result.gift_recommendation.price_range && (
                 <p className={styles.priceRange}>
-                    💰 {result.gift_recommendation.price_range}
+                    {t.reveal.giftCard.priceLabel} {result.gift_recommendation.price_range}
                 </p>
             )}
 
@@ -110,7 +111,7 @@ function GiftHeroCard({ result }: { result: InsightResult }) {
                 iconPosition="left"
                 onClick={() => window.open(result.gift_recommendation.buy_link, '_blank')}
             >
-                Find It Now
+                {t.reveal.giftCard.findButton}
                 <ExternalLink size={16} />
             </Button>
         </Card>
@@ -118,12 +119,12 @@ function GiftHeroCard({ result }: { result: InsightResult }) {
 }
 
 // Action buttons component
-function ActionButtons({ onReset }: { onReset: () => void }) {
+function ActionButtons({ onReset, t }: { onReset: () => void; t: any }) {
     const handleShare = () => {
         if (navigator.share) {
             navigator.share({
-                title: 'GiftGhost',
-                text: 'I found the perfect gift!',
+                title: t.stage.share.title,
+                text: t.stage.share.text,
             });
         }
     };
@@ -131,27 +132,29 @@ function ActionButtons({ onReset }: { onReset: () => void }) {
     return (
         <div className={styles.actions}>
             <Button variant="secondary" icon={<RefreshCw />} onClick={onReset}>
-                Try Another
+                {t.reveal.actions.tryAnother}
             </Button>
             <Button variant="secondary" icon={<Share2 />} onClick={handleShare}>
-                Share
+                {t.reveal.actions.share}
             </Button>
         </div>
     );
 }
 
 // Footer celebration
-function FooterCelebration() {
+function FooterCelebration({ t }: { t: any }) {
     return (
         <div className={styles.footer}>
             <span>🎉</span>
-            <span>You're going to be the best gift-giver!</span>
+            <span>{t.reveal.footer.text}</span>
             <span>🎉</span>
         </div>
     );
 }
 
 export function RevealScene({ result, onReset }: RevealSceneProps) {
+    const { t } = useI18n();
+
     return (
         <div className={styles.scene}>
             <CelebrationConfetti />
@@ -161,12 +164,12 @@ export function RevealScene({ result, onReset }: RevealSceneProps) {
                 <StaggerItem>
                     <div className={styles.successHeader}>
                         <Badge variant="success" pulse icon={<Trophy size={16} />}>
-                            We found something perfect!
+                            {t.reveal.badge}
                         </Badge>
                         <h2 className={styles.personaTitle}>
                             {result.persona}
                         </h2>
-                        <p className={styles.personaSubtitle}>This is who your friend is! 🎉</p>
+                        <p className={styles.personaSubtitle}>{t.reveal.personaTitle}</p>
                     </div>
                 </StaggerItem>
 
@@ -175,13 +178,13 @@ export function RevealScene({ result, onReset }: RevealSceneProps) {
                     <div className={styles.insightGrid}>
                         <InsightCard
                             icon={<span>💔</span>}
-                            label="Pain Point"
+                            label={t.reveal.insightLabels.painPoint}
                             content={result.pain_point}
                             color="coral"
                         />
                         <InsightCard
                             icon={<span>💎</span>}
-                            label="Obsession"
+                            label={t.reveal.insightLabels.obsession}
                             content={result.obsession}
                             color="lavender"
                         />
@@ -190,17 +193,17 @@ export function RevealScene({ result, onReset }: RevealSceneProps) {
 
                 {/* Gift Recommendation */}
                 <StaggerItem>
-                    <GiftHeroCard result={result} />
+                    <GiftHeroCard result={result} t={t} />
                 </StaggerItem>
 
                 {/* Actions */}
                 <StaggerItem>
-                    <ActionButtons onReset={onReset} />
+                    <ActionButtons onReset={onReset} t={t} />
                 </StaggerItem>
 
                 {/* Footer */}
                 <StaggerItem>
-                    <FooterCelebration />
+                    <FooterCelebration t={t} />
                 </StaggerItem>
             </StaggerContainer>
         </div>

@@ -8,6 +8,19 @@
   background-color: $color-cream;
 }
 
+// Language Switcher
+.languageSwitcher {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+
+  @media (min-width: 640px) {
+    top: 24px;
+    right: 24px;
+  }
+}
+
 // Main Content
 .mainContent {
   position: relative;

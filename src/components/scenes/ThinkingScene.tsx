@@ -1,197 +1,206 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Gift, Star, Zap } from 'lucide-react';
-import { Card, SceneWrapper, Badge } from '@/components/ui';
+import { Search, Brain, Sparkle, Gift, Check } from 'lucide-react';
+import { SceneWrapper, Badge } from '@/components/ui';
+import { useI18n } from '@/i18n';
 import styles from './ThinkingScene.module.scss';
 
-const thinkingLogs = [
-    "Reading between the lines...",
-    "Finding hidden gems...",
-    "Consulting the gift oracle...",
-    "Analyzing preferences...",
-    "Connecting the dots...",
-    "Almost there!",
-];
+type ThinkingStage = 'analyzing' | 'digging' | 'matching' | 'generating' | 'finalizing';
 
-// Bouncing Gift Box Component
-function GiftBox({ showEmoji }: { showEmoji: number }) {
+// Stage icons mapping
+const stageIcons: Record<ThinkingStage, React.ReactNode> = {
+    analyzing: <Search size={14} />,
+    digging: <Brain size={14} />,
+    matching: <Sparkle size={14} />,
+    generating: <Gift size={14} />,
+    finalizing: <Check size={14} />,
+};
+
+// Bouncing Gift Box
+function GiftBox() {
     return (
         <motion.div
             className={styles.giftContainer}
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
         >
-            {/* Gift box */}
             <motion.div
                 className={styles.giftBody}
-                animate={{ rotate: [-3, 3, -3] }}
+                animate={{ rotate: [-4, 4, -4] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-                <Gift />
+                <Gift size={32} />
             </motion.div>
-
-            {/* Ribbon */}
             <motion.div
                 className={styles.ribbon}
-                animate={{ scaleX: [1, 1.05, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
+                animate={{ scaleX: [1, 1.08, 1] }}
+                transition={{ duration: 1.2, repeat: Infinity }}
             />
-
-            {/* Rotating emoji */}
             <motion.div
-                className={styles.rotatingEmoji}
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-                {['🎁', '✨', '💡', '🎀'][showEmoji]}
-            </motion.div>
-
-            {/* Orbiting sparkles */}
-            <OrbitingSparkles />
+                className={styles.sparkleRing}
+                animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 2, repeat: Infinity }}
+            />
         </motion.div>
     );
 }
 
-// Orbiting sparkles component
-function OrbitingSparkles() {
-    const positions = [0, 90, 180, 270];
-
+// Encouragement floating emojis
+function Encouragement() {
+    const encouragements = ['🎁', '💡', '🌟', '🎀'];
     return (
-        <div className={styles.orbitingSparkles}>
-            {positions.map((angle, i) => (
-                <motion.div
+        <div className={styles.encouragement}>
+            {encouragements.map((emoji, i) => (
+                <motion.span
                     key={i}
-                    className={styles.sparkleOrbit}
-                    style={{ marginLeft: -4, marginTop: -4 }}
+                    className={styles.encouragementEmoji}
                     animate={{
-                        x: Math.cos((angle * Math.PI) / 180) * 70,
-                        y: Math.sin((angle * Math.PI) / 180) * 70,
-                        scale: [0.8, 1.2, 0.8],
-                        opacity: [0.5, 1, 0.5],
+                        y: [0, -8, 0],
+                        opacity: [0.3, 0.8, 0.3],
                     }}
                     transition={{
-                        duration: 2,
+                        duration: 1.8,
                         repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.3,
+                        delay: i * 0.4,
                     }}
                 >
-                    <Sparkles style={{ width: 16, height: 16 }} />
-                </motion.div>
-            ))}
-        </div>
-    );
-}
-
-// Progress bar component
-function ProgressBar({ progress }: { progress: number }) {
-    return (
-        <div className={styles.progressContainer}>
-            <motion.div
-                className={styles.progressBar}
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.1 }}
-            />
-        </div>
-    );
-}
-
-// Rotating log text
-function RotatingLog({ logIndex }: { logIndex: number }) {
-    return (
-        <div className={styles.logContainer}>
-            <motion.p
-                key={logIndex}
-                className={styles.logText}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-            >
-                {thinkingLogs[logIndex]}
-            </motion.p>
-        </div>
-    );
-}
-
-// Encouragement dots
-function EncouragementDots() {
-    return (
-        <div className={styles.encouragementDots}>
-            {[0, 1, 2].map((i) => (
-                <motion.div
-                    key={i}
-                    className={styles.dot}
-                    animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.4, 1, 0.4],
-                    }}
-                    transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        delay: i * 0.2,
-                    }}
-                />
+                    {emoji}
+                </motion.span>
             ))}
         </div>
     );
 }
 
 export function ThinkingScene() {
-    const [logIndex, setLogIndex] = useState(0);
-    const [progress, setProgress] = useState(0);
-    const [showEmoji, setShowEmoji] = useState(0);
+    const { t } = useI18n();
+    const [currentStage, setCurrentStage] = useState<ThinkingStage>('analyzing');
+    const [stepProgress, setStepProgress] = useState(0); // 当前步骤内的进度 0-100
+
+    const stages = t.thinking.stages;
+    const stageKeys = Object.keys(stages) as ThinkingStage[];
+    const currentIndex = stageKeys.indexOf(currentStage);
 
     useEffect(() => {
-        const logInterval = setInterval(() => {
-            setLogIndex((prev) => (prev + 1) % thinkingLogs.length);
-        }, 1200);
+        // 重置步骤内进度
+        setStepProgress(0);
 
-        const progressInterval = setInterval(() => {
-            setProgress((prev) => Math.min(prev + 3, 90));
+        // 步骤内的小进度条动画 - 每100ms增加5%，2秒完成
+        const stepInterval = setInterval(() => {
+            setStepProgress((prev) => {
+                if (prev >= 100) return 100;
+                return prev + 5;
+            });
         }, 100);
 
-        const emojiInterval = setInterval(() => {
-            setShowEmoji((prev) => (prev + 1) % 4);
-        }, 800);
+        // 阶段切换 - 每个阶段持续2秒
+        if (currentIndex < stageKeys.length - 1) {
+            const timeout = setTimeout(() => {
+                setCurrentStage(stageKeys[currentIndex + 1] as ThinkingStage);
+            }, 2000);
+            return () => {
+                clearInterval(stepInterval);
+                clearTimeout(timeout);
+            };
+        }
 
-        return () => {
-            clearInterval(logInterval);
-            clearInterval(progressInterval);
-            clearInterval(emojiInterval);
-        };
-    }, []);
+        return () => clearInterval(stepInterval);
+    }, [currentStage, currentIndex]);
+
+    // 计算总体进度: 已完成步骤 * 20% + 当前步骤内进度 * 20%
+    // 例如: analyzing完成时=20%, digging完成时=40%...
+    const totalProgress = (currentIndex * 20) + (stepProgress * 0.2);
 
     return (
         <SceneWrapper variant="fade" className={styles.scene}>
-            {/* Main Animation Container */}
+            {/* Gift Animation */}
             <div className={styles.animationContainer}>
-                <GiftBox showEmoji={showEmoji} />
-                <ProgressBar progress={progress} />
+                <GiftBox />
             </div>
 
-            {/* Status Text */}
-            <div className={styles.statusContainer}>
-                <Badge variant="primary" pulse icon={<Zap size={16} />}>
-                    Magic in progress...
+            {/* Badge */}
+            <div className={styles.badgeWrapper}>
+                <Badge variant="primary" pulse>
+                    {t.thinking.badge}
                 </Badge>
-                <RotatingLog logIndex={logIndex} />
             </div>
+
+            {/* Progress Steps - Only show completed + current */}
+            <div className={styles.progressSteps}>
+                {stageKeys.map((key, index) => {
+                    const isCompleted = currentIndex > index;
+                    const isCurrent = currentStage === key;
+
+                    // 只显示已完成和当前的步骤
+                    if (!isCompleted && !isCurrent) return null;
+
+                    return (
+                        <motion.div
+                            key={key}
+                            className={`${styles.progressStep} ${isCurrent ? styles.active : ''} ${isCompleted ? styles.completed : ''}`}
+                            initial={{ opacity: 0, x: -20, height: 0 }}
+                            animate={{ opacity: 1, x: 0, height: 'auto' }}
+                            exit={{ opacity: 0, x: -20, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className={`${styles.stepCircle} ${isCurrent ? styles.active : ''} ${isCompleted ? styles.completed : ''}`}>
+                                {isCompleted ? (
+                                    <Check size={12} />
+                                ) : (
+                                    <motion.span
+                                        animate={{ scale: [1, 1.15, 1] }}
+                                        transition={{ duration: 1, repeat: Infinity }}
+                                    >
+                                        {stageIcons[key]}
+                                    </motion.span>
+                                )}
+                            </div>
+                            <span className={`${styles.stepLabel} ${isCurrent ? styles.activeLabel : ''}`}>
+                                {stages[key]}
+                            </span>
+                        </motion.div>
+                    );
+                })}
+            </div>
+
+            {/* Progress Bar - 跟随步骤进度 */}
+            <motion.div
+                className={styles.progressBarWrapper}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+            >
+                <div className={styles.progressBarBg}>
+                    <motion.div
+                        className={styles.progressBarFill}
+                        initial={{ width: `${currentIndex * 20}%` }}
+                        animate={{ width: `${Math.min(totalProgress, 98)}%` }}
+                        transition={{ duration: 0.3 }}
+                    />
+                </div>
+                <span className={styles.progressText}>{Math.round(Math.min(totalProgress, 98))}%</span>
+            </motion.div>
 
             {/* Fun Facts Card */}
-            <Card variant="elevated" padding="lg" className={styles.funFactCard}>
+            <motion.div
+                className={styles.funFactCard}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+            >
                 <div className={styles.funFactHeader}>
-                    <Star />
-                    <span>Did you know?</span>
+                    <span>💡</span>
+                    <span>{t.thinking.funFact.header}</span>
                 </div>
                 <p className={styles.funFactContent}>
-                    The average person spends <span className={styles.highlight}>7 hours</span> searching for the perfect gift. We're here to fix that! 🎯
+                    {t.thinking.funFact.content}
+                    <span className={styles.highlight}>{t.thinking.funFact.highlight}</span>
+                    {t.thinking.funFact.suffix}
                 </p>
-            </Card>
+            </motion.div>
 
-            {/* Encouragement dots */}
-            <EncouragementDots />
+            {/* Encouragement */}
+            <Encouragement />
         </SceneWrapper>
     );
 }

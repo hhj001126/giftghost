@@ -3,9 +3,10 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search, MessageSquare, Sparkles,
-    Zap, Check, Send, Heart
+    Zap, Check, Heart
 } from 'lucide-react';
 import { Button, SceneWrapper } from '@/components/ui';
+import { useI18n } from '@/i18n';
 import styles from './InputScene.module.scss';
 
 type InputMode = 'DETECTIVE' | 'LISTENER' | 'INTERVIEW';
@@ -18,48 +19,37 @@ const modes = [
     {
         id: 'DETECTIVE' as const,
         emoji: '🕵️',
-        label: 'Detective',
-        shortDesc: 'Analyze a link',
         color: 'coral',
         colorRgb: '255, 127, 110',
-        placeholder: 'Paste a social link...',
-        description: 'Share a social media profile and we\'ll uncover hidden interests! 🔍',
-        hint: 'Try: Instagram, Twitter, Xiaohongshu links...',
-        tips: 'The more posts, the better insights!',
     },
     {
         id: 'LISTENER' as const,
         emoji: '👂',
-        label: 'Listener',
-        shortDesc: 'Dump your thoughts',
         color: 'mint',
         colorRgb: '150, 222, 195',
-        placeholder: 'Tell me about them...',
-        description: 'Share everything you know about your friend. We\'ll find the gems! 💎',
-        hint: 'What do they love? Hate? Dream about?',
-        tips: 'Random details often lead to perfect gifts!',
     },
     {
         id: 'INTERVIEW' as const,
         emoji: '💬',
-        label: 'Quick Chat',
-        shortDesc: '3 questions',
         color: 'lavender',
         colorRgb: '195, 175, 255',
-        placeholder: '',
-        description: 'Answer 3 quick questions. Easy peasy! ✨',
-        hint: '',
-        tips: 'Short answers work too!',
     },
 ];
 
 const interviewQuestions = [
-    { key: 'pain', label: 'What do they complain about?', prefix: 'They always complain about' },
-    { key: 'joy', label: 'What makes them happy?', prefix: 'They love doing' },
-    { key: 'secret', label: 'Secret wish?', prefix: 'Deep down they want' },
+    { key: 'pain', labelKey: 'pain.label', prefixKey: 'pain.prefix' },
+    { key: 'joy', labelKey: 'joy.label', prefixKey: 'joy.prefix' },
+    { key: 'secret', labelKey: 'secret.label', prefixKey: 'secret.prefix' },
 ];
 
+// Helper to get nested translation
+function getNestedTranslation(obj: Record<string, any>, path: string): string {
+    const result = path.split('.').reduce((acc: any, part) => acc?.[part], obj);
+    return typeof result === 'string' ? result : path;
+}
+
 export function InputScene({ onNext }: InputSceneProps) {
+    const { t } = useI18n();
     const [mode, setMode] = useState<InputMode>('DETECTIVE');
     const [inputVal, setInputVal] = useState('');
     const [interviewAnswers, setInterviewAnswers] = useState({
@@ -72,13 +62,25 @@ export function InputScene({ onNext }: InputSceneProps) {
 
     const currentMode = modes.find(m => m.id === mode)!;
 
+    // Get translated values
+    const tModes = t.input.modes;
+    const tPlaceholder = t.input.placeholder;
+
+    const getModeLabel = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.label`);
+    const getModeShortDesc = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.shortDesc`);
+    const getModeDescription = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.description`);
+    const getModeHint = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.hint`);
+    const getModeTips = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.tips`);
+    const getPlaceholder = (id: string) => getNestedTranslation(tPlaceholder, id.toLowerCase());
+
     const getCharFeedback = (text: string) => {
         const length = text.length;
+        const charFeedback = t.input.charFeedback;
         if (length === 0) return { message: '', class: '' };
-        if (length < 10) return { message: 'Getting there...', class: styles.gettingThere };
-        if (length < 30) return { message: 'Nice detail! 💪', class: styles.niceDetail };
-        if (length < 50) return { message: 'You\'re on fire! 🔥', class: styles.onFire };
-        return { message: 'Perfection! 🌟', class: styles.perfection };
+        if (length < 10) return { message: charFeedback.gettingThere, class: styles.gettingThere };
+        if (length < 30) return { message: charFeedback.niceDetail, class: styles.niceDetail };
+        if (length < 50) return { message: charFeedback.onFire, class: styles.onFire };
+        return { message: charFeedback.perfection, class: styles.perfection };
     };
 
     const charFeedback = getCharFeedback(inputVal);
@@ -113,15 +115,17 @@ export function InputScene({ onNext }: InputSceneProps) {
                     transition={{ duration: 2, repeat: Infinity }}
                 >
                     <Zap size={16} />
-                    Let's find the perfect gift!
+                    {t.input.header}
                 </motion.div>
-                <h2 className={styles.title}>How should we help?</h2>
+                <h2 className={styles.title}>{t.input.subtitle}</h2>
             </div>
 
             {/* Mode Selector */}
             <div className={styles.modeSelector}>
                 {modes.map((m, i) => {
                     const isActive = mode === m.id;
+                    const label = getModeLabel(m.id);
+                    const shortDesc = getModeShortDesc(m.id);
 
                     return (
                         <motion.button
@@ -145,8 +149,8 @@ export function InputScene({ onNext }: InputSceneProps) {
                         >
                             {isActive && <div className={styles.activeBg} />}
                             <div className={styles.emoji}>{m.emoji}</div>
-                            <div className={styles.modeLabel}>{m.label}</div>
-                            <div className={styles.modeDesc}>{m.shortDesc}</div>
+                            <div className={styles.modeLabel}>{label}</div>
+                            <div className={styles.modeDesc}>{shortDesc}</div>
                             {isActive && (
                                 <motion.div
                                     layoutId="checkIcon"
@@ -186,7 +190,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                         exit={{ opacity: 0, y: -10 }}
                         className={styles.description}
                     >
-                        {currentMode.description}
+                        {getModeDescription(mode)}
                     </motion.p>
                 </AnimatePresence>
 
@@ -222,7 +226,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                                             onFocus={() => setFocusedField(q.key)}
                                             onBlur={() => setFocusedField(null)}
                                             className={`${styles.questionInput} ${hasAnswer ? styles.hasValue : ''}`}
-                                            placeholder={q.prefix}
+                                            placeholder={`... ${getNestedTranslation(t.input.modes.interview, q.prefixKey)}`}
                                         />
                                         <motion.label
                                             className={styles.floatingLabel}
@@ -230,7 +234,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                                                 scale: isFocused ? 0.9 : 1,
                                             }}
                                         >
-                                            {isFocused ? q.label : ''}
+                                            {isFocused ? getNestedTranslation(t.input.modes.interview, q.labelKey) : ''}
                                         </motion.label>
                                         {hasAnswer && (
                                             <motion.div
@@ -276,7 +280,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                                         exit={{ opacity: 0 }}
                                         className={styles.floatingPlaceholder}
                                     >
-                                        {currentMode.placeholder}
+                                        {getPlaceholder(mode)}
                                         <motion.span
                                             animate={{ opacity: [0.3, 1, 0.3] }}
                                             transition={{ duration: 1, repeat: Infinity }}
@@ -313,10 +317,12 @@ export function InputScene({ onNext }: InputSceneProps) {
                             </div>
 
                             {/* Hint */}
-                            <div className={styles.hint}>
-                                <Sparkles size={12} />
-                                <span>{currentMode.hint}</span>
-                            </div>
+                            {getModeHint(mode) && (
+                                <div className={styles.hint}>
+                                    <Sparkles size={12} />
+                                    <span>{getModeHint(mode)}</span>
+                                </div>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -337,11 +343,11 @@ export function InputScene({ onNext }: InputSceneProps) {
                 >
                     {isFormValid ? (
                         <>
-                            <span>Find Perfect Gift</span>
+                            <span>{t.input.findGift}</span>
                             <Sparkles size={24} style={{ marginLeft: 8 }} />
                         </>
                     ) : (
-                        'Start Typing →'
+                        t.input.startTyping
                     )}
                 </Button>
             </div>
@@ -354,7 +360,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                 className={styles.tips}
             >
                 <span>💡</span>
-                <span>{currentMode.tips}</span>
+                <span>{getModeTips(mode)}</span>
             </motion.p>
         </SceneWrapper>
     );

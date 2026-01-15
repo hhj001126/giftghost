@@ -6,6 +6,8 @@ import { InputScene } from '@/components/scenes/InputScene';
 import { ThinkingScene } from '@/components/scenes/ThinkingScene';
 import { RevealScene } from '@/components/scenes/RevealScene';
 import { BackgroundParticles, FloatingShapes } from '@/components/background';
+import { LanguageSwitcher } from '@/components/ui';
+import { useI18n } from '@/i18n';
 import styles from './Stage.module.scss';
 
 // Define the scenes for the application flow
@@ -24,6 +26,7 @@ interface InsightResult {
 }
 
 export function Stage() {
+    const { t, locale } = useI18n();
     const [scene, setScene] = useState<Scene>('INTRO');
     const [result, setResult] = useState<InsightResult | null>(null);
     const [mounted, setMounted] = useState(false);
@@ -36,13 +39,13 @@ export function Stage() {
         setScene('THINKING');
 
         const { generateInsight } = await import('@/app/actions');
-        const response = await generateInsight(inputData);
+        const response = await generateInsight(inputData, locale);
 
         if (response.success && response.persona) {
             setResult(response as InsightResult);
             setScene('REVEAL');
         } else {
-            alert('Oops! Something went wrong. Try again?');
+            alert(`${t.stage.error.title} ${t.stage.error.message}`);
             setScene('INPUT');
         }
     };
@@ -54,6 +57,11 @@ export function Stage() {
             {/* Background Effects */}
             <BackgroundParticles />
             <FloatingShapes />
+
+            {/* Language Switcher */}
+            <div className={styles.languageSwitcher}>
+                <LanguageSwitcher />
+            </div>
 
             {/* Main Content */}
             <div className={styles.mainContent}>

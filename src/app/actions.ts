@@ -66,6 +66,10 @@ The perfect gift:
 
 const OUTPUT_SCHEMA = `## OUTPUT REQUIREMENTS
 
+## LANGUAGE
+You MUST respond in the same language as the user's input.
+
+## JSON OUTPUT
 Return a JSON object with this exact structure:
 
 {
@@ -108,8 +112,14 @@ Gift Recommendation: {
   "price_range": "$35-60"
 }`;
 
-function buildSystemPrompt(mode: string, content: string, isInterview: boolean): string {
-  let prompt = `${GHOST_PERSONA}\n\n${ANALYSIS_FRAMEWORK}\n\n${GIFT_PHILOSOPHY}\n\n${OUTPUT_SCHEMA}`;
+const LANGUAGE_GUIDE: Record<string, string> = {
+  'zh-CN': '## LANGUAGE REQUIREMENT\nYou MUST respond in Simplified Chinese (简体中文). All text must be in Simplified Chinese, including persona names, pain points, obsession descriptions, gift names, and reasons.\n\n示例 persona: "疲惫的绿植控", "自我牺牲的修补匠"',
+  'zh-HK': '## LANGUAGE REQUIREMENT\nYou MUST respond in Traditional Chinese (繁體中文). All text must be in Traditional Chinese, including persona names, pain points, obsession descriptions, gift names, and reasons.\n\n示例 persona: "疲憊的綠植控", "自我犧牲的修補匠"',
+  'en': '## LANGUAGE REQUIREMENT\nYou MUST respond in English. All text must be in English, including persona names, pain points, obsession descriptions, gift names, and reasons.\n\n示例 persona: "The Tired Dreamer", "The Self-Sacrificing Tinkerer"',
+};
+
+function buildSystemPrompt(mode: string, content: string, isInterview: boolean, locale: string = 'en'): string {
+  let prompt = `${GHOST_PERSONA}\n\n${ANALYSIS_FRAMEWORK}\n\n${GIFT_PHILOSOPHY}\n\n${OUTPUT_SCHEMA}\n\n${LANGUAGE_GUIDE[locale] || LANGUAGE_GUIDE['en']}`;
 
   if (mode === 'DETECTIVE') {
     prompt += `
@@ -165,15 +175,35 @@ ANALYZE FOR:
   return prompt;
 }
 
-export async function generateInsight(input: { mode: string; content: string }) {
-  console.log('👻 Ghost is thinking about:', input);
+export async function generateInsight(input: { mode: string; content: string }, locale: string = 'en') {
+  console.log('👻 Ghost is thinking about:', input, 'Language:', locale);
+
+  // MOCK MODE - Set content to "MOCK" to enable
+  if (input.content === 'MOCK 123456') {
+    console.log('🎭 Using MOCK result for debugging');
+    await new Promise(resolve => setTimeout(resolve, 10000)); // 10秒演示
+    return {
+      success: true,
+      persona: locale === 'zh-CN' ? '忙碌的咖啡控' : locale === 'zh-HK' ? '忙碌既咖啡控' : 'The Busy Coffee Lover',
+      pain_point: locale === 'zh-CN' ? '每天睡眠不足，却还在疯狂加班' : locale === 'zh-HK' ? '每日睡眠不足，仲喺度疯狂加班' : 'Running on empty but still powering through work',
+      obsession: locale === 'zh-CN' ? '对精品咖啡的执念，手冲就是他的冥想时刻' : locale === 'zh-HK' ? '對精品咖啡既執念，手冲就係佢既冥想時刻' : 'Obsessed with specialty coffee - pour-over is his meditation',
+      gift_recommendation: {
+        item: locale === 'zh-CN' ? 'Hario V60 树脂滤杯套装' : locale === 'zh-HK' ? 'Hario V60  resin濾杯套装' : 'Hario V60 Ceramic Pour-Over Set',
+        reason: locale === 'zh-CN' ? '早上 5 分钟的手冲仪式，让他找到片刻宁静。V60 的流速感能让他专注于当下，暂时忘记待办事项。' : locale === 'zh-HK' ? '朝早 5 分鐘既手冲儀式，令佢搵到片刻寧靜。V60 既流速感能夠令佢專注於當下，暫時忘記待辦事項。' : 'A 5-minute pour-over ritual that gives him pause in the chaos. The V60\'s flow makes him focus on the present moment.',
+        buy_link: 'https://www.google.com/search?q=Hario+V60+Ceramic+Dripper',
+        price_range: locale === 'zh-CN' ? '¥200-350' : locale === 'zh-HK' ? '$200-350' : '$30-50',
+      },
+    };
+  }
 
   const minDelay = new Promise((resolve) => setTimeout(resolve, 2500));
 
+  // Build language-specific system prompt
   const systemPrompt = buildSystemPrompt(
     input.mode,
     input.mode === 'INTERVIEW' ? input.content : '',
-    input.mode === 'INTERVIEW'
+    input.mode === 'INTERVIEW',
+    locale
   );
 
   const userContent = input.mode === 'INTERVIEW'

@@ -9,6 +9,7 @@ export {
     type SceneWrapperProps,
 } from './SceneWrapper';
 export { Badge, StatusDot, type BadgeProps, type StatusDotProps } from './Badge';
+export { LanguageSwitcher } from './LanguageSwitcher';
 
 // Background & Effects
 export {

@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Gift, Heart } from 'lucide-react';
 import { Button, SceneWrapper } from '@/components/ui';
+import { useI18n } from '@/i18n';
 import styles from './IntroScene.module.scss';
 
 interface IntroSceneProps {
@@ -116,6 +117,8 @@ function AvatarGroup() {
 }
 
 export function IntroScene({ onNext }: IntroSceneProps) {
+    const { t } = useI18n();
+
     return (
         <SceneWrapper centered variant="scale" className={styles.scene}>
             {/* Hero Icon - Animated Gift Box */}
@@ -140,8 +143,8 @@ export function IntroScene({ onNext }: IntroSceneProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
             >
-                <span className={styles.coralPart}>Gift</span>
-                <span className={styles.mintPart}>Ghost</span>
+                <span className={styles.coralPart}>{t.intro.title.slice(0, 4)}</span>
+                <span className={styles.mintPart}>{t.intro.title.slice(4)}</span>
             </motion.h1>
 
             {/* Tagline */}
@@ -151,7 +154,7 @@ export function IntroScene({ onNext }: IntroSceneProps) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
             >
-                Gift hunting made fun & easy!
+                {t.intro.subtitle}
             </motion.p>
 
             {/* CTA Button */}
@@ -169,7 +172,7 @@ export function IntroScene({ onNext }: IntroSceneProps) {
                     floatingHearts
                     onClick={onNext}
                 >
-                    Find a Gift
+                    {t.intro.cta}
                 </Button>
             </motion.div>
 
@@ -181,7 +184,7 @@ export function IntroScene({ onNext }: IntroSceneProps) {
                 transition={{ delay: 0.7 }}
             >
                 <AvatarGroup />
-                <span>Loved by 10,000+ gift-givers</span>
+                <span>{t.intro.socialProof}</span>
             </motion.div>
         </SceneWrapper>
     );

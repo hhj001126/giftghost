@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Quicksand, Bubblegum_Sans } from "next/font/google";
+import { Quicksand, Bubblegum_Sans, Noto_Sans_SC, Noto_Sans_TC } from "next/font/google";
 import "./_globals.scss";
+import { I18nProvider } from "@/i18n";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -12,6 +13,22 @@ const quicksand = Quicksand({
 const bubblegum = Bubblegum_Sans({
   variable: "--font-bubblegum",
   weight: ["400"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Simplified Chinese font
+const notoSansSC = Noto_Sans_SC({
+  variable: "--font-noto-sc",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Traditional Chinese font
+const notoSansTC = Noto_Sans_TC({
+  variable: "--font-noto-tc",
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -106,9 +123,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${quicksand.variable} ${bubblegum.variable} antialiased`}
+        className={`${quicksand.variable} ${bubblegum.variable} ${notoSansSC.variable} ${notoSansTC.variable} antialiased`}
       >
-        {children}
+        <I18nProvider>
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );
