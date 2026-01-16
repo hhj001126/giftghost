@@ -1,0 +1,35 @@
+@use '../../../../app/_design-tokens.scss' as *;
+
+.inputCard {
+  @include card-base;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+
+  @media (min-width: 640px) {
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+}
+
+.gradientBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--mode-color, #FF7F6E), var(--mode-color-light, #FFA096));
+}
+
+.description {
+  font-family: var(--font-body, system-ui);
+  color: var(--color-text-secondary, #646469);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 24px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 32px;
+  }
+}

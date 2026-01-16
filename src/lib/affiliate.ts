@@ -302,3 +302,18 @@ export function trackAffiliateClick(analytics: AffiliateAnalytics): void {
     timestamp: new Date().toISOString(),
   });
 }
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/**
+ * Transform a buy link using default config from environment variables
+ * @param buyLink - The original buy link
+ * @returns - Transformed link with affiliate tag
+ */
+export function transformBuyLink(buyLink: string): string {
+  const config = getAffiliateConfig();
+  const result = transformAffiliateLink(buyLink, config);
+  return result.transformed;
+}

@@ -1,0 +1,53 @@
+@use '../../../../app/_design-tokens.scss' as *;
+
+.funFactCard {
+  @include card-base;
+  padding: 14px 18px;
+  max-width: 260px;
+  margin: 0 auto;
+  margin-bottom: 16px;
+
+  @media (min-width: 640px) {
+    padding: 20px 28px;
+    max-width: 300px;
+  }
+}
+
+.funFactHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  span:first-child {
+    font-size: 1rem;
+  }
+
+  span:last-child {
+    font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    color: $color-text-primary;
+
+    @media (min-width: 640px) {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+.funFactContent {
+  font-family: var(--font-body, system-ui);
+  font-size: 0.8125rem;
+  color: $color-text-secondary;
+  line-height: 1.5;
+
+  @media (min-width: 640px) {
+    font-size: 0.9375rem;
+  }
+
+  .highlight {
+    color: $color-coral;
+    font-weight: 600;
+    margin: 0 4px;
+  }
+}

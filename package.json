@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 0.0.0.0",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -H 0.0.0.0",
-    "lint": "eslint"
+    "start": "next start",
+    "lint": "eslint",
+    "test:actions": "tsx src/app/actions.test.ts",
+    "test:url": "tsx src/app/actions.test.ts --url-only",
+    "test:diagnose": "tsx src/app/actions.test.ts --diagnose"
   },
   "dependencies": {
+    "@mendable/firecrawl-js": "^4.11.1",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.90.1",
     "ai": "^6.0.33",
@@ -24,12 +28,15 @@
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
+    "@types/dotenv": "^6.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.6.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "sass": "^1.77.0",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

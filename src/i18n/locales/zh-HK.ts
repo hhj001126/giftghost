@@ -1,6 +1,8 @@
 // ============================================
 // TRANSLATIONS - Traditional Chinese Hong Kong (繁體中文)
 // ============================================
+// This is a data file. Fast Refresh will perform a full reload when this file changes.
+// This is expected behavior for translation files.
 
 export const zhHK = {
   // Navigation
@@ -22,39 +24,138 @@ export const zhHK = {
 
     // Mode Cards
     modes: {
-      detective: {
-        label: '偵探',
-        shortDesc: '分析連結',
-        description: '分享一個社交媒體連結，我哋會發掘隱藏既興趣愛好！🔍',
-        hint: '試下：Instagram、Twitter、小紅書連結...',
-        tips: '越多帖子，分析越準確！',
-      },
       listener: {
-        label: '聆聽者',
-        shortDesc: '傾訴諗法',
-        description: '分享你知既所有野，我哋會發現當中既閃光點！💎',
-        hint: '佢地鍾意咩？憎咩？夢想係咩？',
-        tips: '隨機既細節往往可以帶嚟完美既禮物靈感！',
+        label: '時光走廊',
+        shortDesc: '分享回憶',
+        description: '一齊回憶關於你朋友既點點滴滴，發現嗰啲特別既瞬間！📖',
+        hint: '諗吓佢地既日常習慣、熱愛既事物、仲有嗰啲有趣既小癖好...',
+        tips: '每一個回憶都係搵到完美禮物既線索！',
+        memoryPrompts: {
+          // Morning & Energy
+          morning: {
+            emoji: '🌅',
+            title: '清晨儀式',
+            subtitle: '佢地點樣開始新既一日？',
+            questions: [
+              '起身後第一件事係咩？飲咖啡、飲茶定係？',
+              '即刻拎定疆定係享受吓寧靜時光？',
+              '早起達人定係鬧鐘殺手？',
+            ],
+            placeholder: 'e.g., 佢地朝早冇燕麥拿鐵就周身唔舒服...',
+          },
+          // Work & Passion
+          work: {
+            emoji: '🎯',
+            title: '工作與熱愛',
+            subtitle: '咩驅動住佢地？',
+            questions: [
+              '即使冇錢俾佢地都會做咩？',
+              '有咩副業或創意追求？',
+              '鐘意而家既工定係想緊其他嘢？',
+            ],
+            placeholder: 'e.g., 佢係設計師但係周末會花時間寫code...',
+          },
+          // Comfort & Relax
+          comfort: {
+            emoji: '☁️',
+            title: '舒適與放鬆',
+            subtitle: '佢地點樣放鬆？',
+            questions: [
+              '空閒既周日最鐘意點過？',
+              '有咩戒唔甩既小食或食物？',
+              '有冇特別依戀既氈、枕頭或其他物品？',
+            ],
+            placeholder: 'e.g., 佢地痴迷於日本KitKat漫畫房...',
+          },
+          // Quirks & Personality
+          quirks: {
+            emoji: '🦋',
+            title: '有趣既小癖好',
+            subtitle: '咩令佢地獨一無二？',
+            questions: [
+              '有冇奇怪既美食配搭係佢地鐘意既？',
+              '有冇咩迷信或幸運小儀式？',
+              '有咩搞笑既怪癖或恐懼？',
+            ],
+            placeholder: 'e.g., 佢地會喺炒蛋入面加茄汁，而且竟然好好食...',
+          },
+          // Relationships
+          relationships: {
+            emoji: '💝',
+            title: '人際關係與社交',
+            subtitle: '佢地點同人相處？',
+            questions: [
+              '最好既朋友係邊個？佢地鐘意一齊做咩？',
+              '鐘意大型聚會定係小型親密聚會？',
+              '有冇特別鐘意既寵物或動物？',
+            ],
+            placeholder: 'e.g., 佢地係嗰種記得每個人生日既朋友...',
+          },
+          // Dreams & Aspirations
+          dreams: {
+            emoji: '✨',
+            title: '夢想與期待',
+            subtitle: '佢地喺度追尋緊咩？',
+            questions: [
+              '有冇一直想去既地方？',
+              '想學咩技能？',
+              '佢地理想既周末係點既？',
+            ],
+            placeholder: 'e.g., 佢地一直夢想去京都睇櫻花...',
+          },
+        },
       },
       interview: {
-        label: '快速問答',
-        shortDesc: '3條問題',
-        description: '回答3條簡單問題。輕鬆搞掂！✨',
+        label: '心靈對話',
+        shortDesc: '幾條問題',
+        description: '簡短既心靈對話。回答幾條問題，等我哋施展魔法！💫',
         hint: '',
-        tips: '簡短回答都得！',
+        tips: '真誠既回答會帶嚟最正既推薦！',
 
-        // Interview questions
+        // Interview questions with enhanced context
         pain: {
-          label: '咩嘢令佢地唔開心？',
-          prefix: '令佢地唔開心既嘢係...',
+          emoji: '💭',
+          label: '咩令佢地煩惱？',
+          questions: [
+            '日常生活中咩小事經常令佢地好忟？',
+            '工作、人際關係或生活上有咩壓力？',
+            '佢地抱怨最多既問題係咩？',
+          ],
+          placeholder: 'e.g., 佢地成日抱怨枕頭唔好搞到頸痛...',
+          hint: '諗吓：挫折、煩惱、日常困擾',
         },
         joy: {
-          label: '咩嘢令佢地開心？',
-          prefix: '令佢地開心既嘢係...',
+          emoji: '💖',
+          label: '咩令佢地開心？',
+          questions: [
+            '傾咩佢地眼會發光？',
+            '有冇做咩會唔記得時間既嘢？',
+            '佢地收過最鐘意既禮物係咩？',
+          ],
+          placeholder: 'e.g., 佢地可以傾老式相機傾幾個鐘...',
+          hint: '諗吓：熱愛、快樂時刻、珍藏既活動',
         },
         secret: {
-          label: '有咩隱藏既渴望？',
-          prefix: '佢地暗地裏想要既嘢係...',
+          emoji: '🌟',
+          label: '佢地暗地裏想要咩？',
+          questions: [
+            '咩佢地永遠唔會承認想要？',
+            '有咩隱藏既小確幸？',
+            '購物車入面有咩但永遠唔會買俾自己？',
+          ],
+          placeholder: 'e.g., 佢地想要一部高級咖啡機但係覺得太奢侈...',
+          hint: '諗吓：小確幸、隱藏既欲望、自我克制',
+        },
+        style: {
+          emoji: '🎨',
+          label: '佢地既風格係點既？',
+          questions: [
+            '極簡主義定係極繁主義？',
+            '鐘意經典定係潮流？',
+            '有咩特別鐘愛或避開既顏色？',
+          ],
+          placeholder: 'e.g., 佢地被大地色系吸引但係件衫全部黑色...',
+          hint: '諗吓：時尚感、審美偏好、顏色',
         },
       },
     },
@@ -69,7 +170,6 @@ export const zhHK = {
 
     // Placeholders
     placeholder: {
-      detective: '貼上社交連結...',
       listener: '講吓關於佢地既嘢...',
     },
 
@@ -79,6 +179,87 @@ export const zhHK = {
     // Button
     startTyping: '開始輸入 →',
     findGift: '搵完美禮物',
+
+    // Memory Lane Input
+    memoryLane: {
+      step: '第 {number} 步',
+      nextQuestion: '下一題',
+    },
+
+    // Profile Quick Input
+    profileQuick: {
+      header: {
+        title: '快速了解',
+        subtitle: '回答幾個小問題，幫助我哋更好地推薦',
+      },
+      progress: {
+        completed: '{count} / {total} 完成',
+        completeText: '太正喇！🎉',
+      },
+      sections: {
+        gender: {
+          title: '性別',
+          options: {
+            male: '男',
+            female: '女',
+            other: '其他',
+            preferNot: '唔想講',
+          },
+        },
+        age: {
+          title: '年齡段',
+          options: {
+            '18-24': '18-24 歲',
+            '25-34': '25-34 歲',
+            '35-44': '35-44 歲',
+            '45-54': '45-54 歲',
+            '55+': '55+ 歲',
+          },
+        },
+        mbti: {
+          title: 'MBTI 人格',
+          types: {
+            ISTJ: '檢查者',
+            ISFJ: '守護者',
+            INFJ: '提倡者',
+            INTJ: '建築師',
+            ISTP: '鑑賞家',
+            ISFP: '探險家',
+            INFP: '調解者',
+            INTP: '邏輯學家',
+            ESTP: '企業家',
+            ESFP: '表演者',
+            ENFP: '競選者',
+            ENTP: '辯論家',
+            ESTJ: '總經理',
+            ESFJ: '執政官',
+            ENFJ: '主人公',
+            ENTJ: '指揮官',
+          },
+        },
+        interests: {
+          title: '興趣愛好',
+          tags: {
+            tech: '科技',
+            gaming: '遊戲',
+            reading: '閱讀',
+            travel: '旅行',
+            fitness: '健身',
+            cooking: '烹飪',
+            music: '音樂',
+            art: '藝術',
+            outdoor: '戶外',
+            photography: '攝影',
+            fashion: '時尚',
+            pets: '寵物',
+          },
+        },
+      },
+      buttons: {
+        continue: '繼續 →',
+        skip: '跳過，繼續',
+      },
+    },
   },
 
   // Thinking Scene
@@ -157,6 +338,11 @@ export const zhHK = {
       title: '哎呀！',
       message: '出咗啲問題，要再試一次嗎？',
       button: '好嘅',
+      rateLimit: {
+        title: '今日次數已用完',
+        message: '今日已經用咗 ${count} 次免費生成聽日再嚟啦！',
+        button: '知道喇',
+      },
     },
     share: {
       title: 'GiftGhost',
@@ -177,5 +363,13 @@ export const zhHK = {
     shareResult: '分享結果',
     shareTitle: '${persona} 既禮物',
     shareText: '我搵到完美既禮物: ${gift}!',
+  },
+
+  // Feedback
+  feedback: {
+    title: '鐘意呢個推薦嗎？',
+    like: '太正喇！',
+    dislike: '一般啦',
+    thanks: '多謝反饋！',
   },
 };

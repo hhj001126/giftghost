@@ -1,0 +1,1 @@
+export { FunFactCard } from './FunFactCard';

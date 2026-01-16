@@ -1,6 +1,8 @@
 // ============================================
 // TRANSLATIONS - Simplified Chinese (简体中文)
 // ============================================
+// This is a data file. Fast Refresh will perform a full reload when this file changes.
+// This is expected behavior for translation files.
 
 export const zhCN = {
   // Navigation
@@ -22,55 +24,153 @@ export const zhCN = {
 
     // Mode Cards
     modes: {
-      detective: {
-        label: '侦探',
-        shortDesc: '分析链接',
-        description: '分享一个社交媒体链接，我们会发掘隐藏的兴趣爱好！🔍',
-        hint: '试试：Instagram、Twitter、小红书链接...',
-        tips: '帖子越多，洞察越准确！',
-      },
       listener: {
-        label: '倾听者',
-        shortDesc: '倾诉想法',
-        description: '分享你了解的一切，我们会发现其中的闪光点！💎',
-        hint: 'ta喜欢什么？讨厌什么？梦想是什么？',
-        tips: '随机细节往往能带来完美的礼物灵感！',
+        label: '时光走廊',
+        shortDesc: '分享回忆',
+        description: '一起回忆关于你朋友的点点滴滴，发现那些特别的瞬间！📖',
+        hint: '想想他们的日常习惯、热爱的事物、还有那些有趣的小癖好...',
+        tips: '每一个回忆都是找到完美礼物的线索！',
+        memoryPrompts: {
+          // Morning & Energy
+          morning: {
+            emoji: '🌅',
+            title: '清晨仪式',
+            subtitle: '他们怎么开始新的一天？',
+            questions: [
+              '起床后第一件事是什么？喝咖啡、喝茶还是？',
+              '立刻刷手机还是先享受一段安静时光？',
+              '早起达人还是闹钟杀手？',
+            ],
+            placeholder: 'e.g., 他们早上没有燕麦拿铁就浑身不舒服...',
+          },
+          // Work & Passion
+          work: {
+            emoji: '🎯',
+            title: '工作与热爱',
+            subtitle: '什么驱动着他们？',
+            questions: [
+              '即使不给钱他们也会做什么？',
+              '有什么副业或创意追求？',
+              '喜欢现在的工作还是梦想着别的？',
+            ],
+            placeholder: 'e.g., 虽然是设计师但周末会花时间写代码...',
+          },
+          // Comfort & Relax
+          comfort: {
+            emoji: '☁️',
+            title: '舒适与放松',
+            subtitle: '他们怎么放松？',
+            questions: [
+              '空闲的周日最喜欢怎么过？',
+              '有什么戒不掉的小零食或食物？',
+              '有什么特别依恋的毯子、枕头或其他物品？',
+            ],
+            placeholder: 'e.g., 他们痴迷于日本KitKat漫画房...',
+          },
+          // Quirks & Personality
+          quirks: {
+            emoji: '🦋',
+            title: '有趣的小癖好',
+            subtitle: '什么让他们独一无二？',
+            questions: [
+              '有没有奇怪的美食搭配是他们喜欢的？',
+              '有没有什么迷信或幸运小仪式？',
+              '有什么搞笑的怪癖或恐惧？',
+            ],
+            placeholder: 'e.g., 他们会在炒蛋里加番茄酱，而且竟然很好吃...',
+          },
+          // Relationships
+          relationships: {
+            emoji: '💝',
+            title: '人际关系与社交',
+            subtitle: '他们怎么与人相处？',
+            questions: [
+              '最好的朋友是谁？他们喜欢一起做什么？',
+              '喜欢大型聚会还是小型亲密聚会？',
+              '有没有特别喜欢的宠物或动物？',
+            ],
+            placeholder: 'e.g., 他们是那种记得每个人生日的朋友...',
+          },
+          // Dreams & Aspirations
+          dreams: {
+            emoji: '✨',
+            title: '梦想与期待',
+            subtitle: '他们在追寻什么？',
+            questions: [
+              '有没有一直想去的地方？',
+              '想学什么技能？',
+              '他们理想的周末是什么样的？',
+            ],
+            placeholder: 'e.g., 他们一直梦想着去京都看樱花...',
+          },
+        },
       },
       interview: {
-        label: '快速问答',
-        shortDesc: '3个问题',
-        description: '回答3个简单问题。轻松搞定！✨',
+        label: '心灵对话',
+        shortDesc: '几个问题',
+        description: '简短的心灵对话。回答几个问题，让我们施展魔法！💫',
         hint: '',
-        tips: '简短回答也可以！',
+        tips: '真诚的回答会带来最棒的推荐！',
 
-        // Interview questions
+        // Interview questions with enhanced context
         pain: {
-          label: '什么让ta烦恼？',
-          prefix: '让ta烦恼的是...',
+          emoji: '💭',
+          label: '什么让他们烦恼？',
+          questions: [
+            '日常中什么小事总是让他们很烦？',
+            '工作、人际关系或生活上有什么压力？',
+            '他们抱怨最多的问题是什么？',
+          ],
+          placeholder: 'e.g., 他们总是抱怨枕头不好导致脖子疼...',
+          hint: '想想：挫折、烦恼、日常困扰',
         },
         joy: {
-          label: '什么让ta开心？',
-          prefix: '让ta开心的是...',
+          emoji: '💖',
+          label: '什么让他们开心？',
+          questions: [
+            '聊到什么他们眼睛会发亮？',
+            '有没有做什么会忘记时间的事？',
+            '他们收到过最喜欢的礼物是什么？',
+          ],
+          placeholder: 'e.g., 他们可以聊老式相机聊上几个小时...',
+          hint: '想想：热爱、快乐时刻、珍藏的活动',
         },
         secret: {
-          label: '有什么隐藏的渴望？',
-          prefix: 'ta暗地里想要...',
+          emoji: '🌟',
+          label: '他们暗地里想要什么？',
+          questions: [
+            '什么他们永远不会承认想要？',
+            '有什么隐藏的小确幸？',
+            '购物车里有什么但永远不会给自己买？',
+          ],
+          placeholder: 'e.g., 他们想要一台高级咖啡机但觉得太奢侈了...',
+          hint: '想想：小确幸、隐藏的欲望、自我克制',
+        },
+        style: {
+          emoji: '🎨',
+          label: '他们的风格是什么样的？',
+          questions: [
+            '极简主义还是极繁主义？',
+            '喜欢经典还是潮流？',
+            '有什么特别钟爱或回避的颜色？',
+          ],
+          placeholder: 'e.g., 他们被大地色系吸引但衣服全是黑色...',
+          hint: '想想：时尚感、审美偏好、颜色',
         },
       },
     },
 
     // Character count feedback messages
     charFeedback: {
-      gettingThere: '继续输入...',
-      niceDetail: '不错！💪',
-      onFire: '太棒了！🔥',
-      perfection: '完美！🌟',
+      gettingThere: '继续...细节越多越好！',
+      niceDetail: '太棒了！💪',
+      onFire: '太厉害了！🔥',
+      perfection: '完美！我们都了解了！🌟',
     },
 
     // Placeholders
     placeholder: {
-      detective: '粘贴社交链接...',
-      listener: '告诉我关于ta的一切...',
+      listener: '告诉我关于他们的一切...',
     },
 
     // Hints
@@ -79,6 +179,87 @@ export const zhCN = {
     // Button
     startTyping: '开始输入 →',
     findGift: '寻找完美礼物',
+
+    // Memory Lane Input
+    memoryLane: {
+      step: '第 {number} 步',
+      nextQuestion: '下一题',
+    },
+
+    // Profile Quick Input
+    profileQuick: {
+      header: {
+        title: '快速了解',
+        subtitle: '回答几个小问题，帮助我们更好地推荐',
+      },
+      progress: {
+        completed: '{count} / {total} 完成',
+        completeText: '太棒了！🎉',
+      },
+      sections: {
+        gender: {
+          title: '性别',
+          options: {
+            male: '男',
+            female: '女',
+            other: '其他',
+            preferNot: '不想说',
+          },
+        },
+        age: {
+          title: '年龄段',
+          options: {
+            '18-24': '18-24 岁',
+            '25-34': '25-34 岁',
+            '35-44': '35-44 岁',
+            '45-54': '45-54 岁',
+            '55+': '55+ 岁',
+          },
+        },
+        mbti: {
+          title: 'MBTI 人格',
+          types: {
+            ISTJ: '检查者',
+            ISFJ: '守护者',
+            INFJ: '提倡者',
+            INTJ: '建筑师',
+            ISTP: '鉴赏家',
+            ISFP: '探险家',
+            INFP: '调解者',
+            INTP: '逻辑学家',
+            ESTP: '企业家',
+            ESFP: '表演者',
+            ENFP: '竞选者',
+            ENTP: '辩论家',
+            ESTJ: '总经理',
+            ESFJ: '执政官',
+            ENFJ: '主人公',
+            ENTJ: '指挥官',
+          },
+        },
+        interests: {
+          title: '兴趣爱好',
+          tags: {
+            tech: '科技',
+            gaming: '游戏',
+            reading: '阅读',
+            travel: '旅行',
+            fitness: '健身',
+            cooking: '烹饪',
+            music: '音乐',
+            art: '艺术',
+            outdoor: '户外',
+            photography: '摄影',
+            fashion: '时尚',
+            pets: '宠物',
+          },
+        },
+      },
+      buttons: {
+        continue: '继续 →',
+        skip: '跳过，继续',
+      },
+    },
   },
 
   // Thinking Scene
@@ -157,6 +338,11 @@ export const zhCN = {
       title: '哎呀！',
       message: '出了点问题，要再试一次吗？',
       button: '好的',
+      rateLimit: {
+        title: '今日次数已用完',
+        message: '今天已经使用了 ${count} 次免费生成，明天再来吧！',
+        button: '知道了',
+      },
     },
     share: {
       title: 'GiftGhost',
@@ -177,5 +363,13 @@ export const zhCN = {
     shareResult: '分享结果',
     shareTitle: '${persona} 的礼物',
     shareText: '我找到了完美礼物: ${gift}!',
+  },
+
+  // Feedback
+  feedback: {
+    title: '喜欢这个推荐吗？',
+    like: '太棒了！',
+    dislike: '不太行',
+    thanks: '感谢反馈！',
   },
 };

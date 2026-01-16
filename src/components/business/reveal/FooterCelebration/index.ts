@@ -1,0 +1,1 @@
+export { FooterCelebration } from './FooterCelebration';

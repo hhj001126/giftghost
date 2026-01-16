@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Quicksand, Bubblegum_Sans, Noto_Sans_SC, Noto_Sans_TC } from "next/font/google";
 import "./_globals.scss";
 import { I18nProvider } from "@/i18n";
+import { TraceProvider } from "@/tracker";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -49,6 +50,8 @@ export const metadata: Metadata = {
     "birthday gifts",
     "holiday shopping",
     "gift helper",
+    "AI 礼物推荐",
+    "AI 送禮建議",
   ],
   authors: [{ name: "GiftGhost Team" }],
   creator: "GiftGhost",
@@ -64,6 +67,14 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  alternates: {
+    canonical: "https://giftghost.com",
+    languages: {
+      "en": "https://giftghost.com",
+      "zh-CN": "https://giftghost.com?lang=zh-CN",
+      "zh-HK": "https://giftghost.com?lang=zh-HK",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -77,6 +88,12 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "GiftGhost - Find the Perfect Gift",
+      },
+      {
+        url: "/og-image-square.png",
+        width: 1080,
+        height: 1080,
+        alt: "GiftGhost Logo",
       },
     ],
   },
@@ -126,7 +143,9 @@ export default function RootLayout({
         className={`${quicksand.variable} ${bubblegum.variable} ${notoSansSC.variable} ${notoSansTC.variable} antialiased`}
       >
         <I18nProvider>
+          <TraceProvider>
           {children}
+        </TraceProvider>
         </I18nProvider>
       </body>
     </html>

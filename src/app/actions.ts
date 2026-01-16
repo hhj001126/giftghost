@@ -1,12 +1,69 @@
 'use server';
 
+import { headers as nextHeaders } from 'next/headers';
 import OpenAI from 'openai';
+import { startAISession, completeAISession, failAISession } from '@/tracker/server';
+import { clearTraceCookie } from '@/tracker/trace-utils';
+import { checkRateLimit } from '@/lib/rate-limit';
+import { fetchSocialContent, processFetchedContent, detectPlatform } from '@/lib/url-fetcher';
 
 // Configure OpenAI with optional custom base URL (for proxy support)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   baseURL: process.env.OPENAI_API_BASE_URL || 'https://api.openai.com/v1',
 });
+
+// ============================================
+// URL FETCHER SERVER ACTION
+// ============================================
+
+export async function fetchUrlContent(url: string) {
+  console.log('🔍 Fetching URL:', url);
+
+  try {
+    // Validate URL
+    const urlObj = new URL(url);
+    if (!['http:', 'https:'].includes(urlObj.protocol)) {
+      return {
+        success: false,
+        error: 'INVALID_URL',
+        message: 'Please enter a valid URL starting with http:// or https://',
+      };
+    }
+
+    // Fetch content
+    const content = await fetchSocialContent(url, {
+      maxContentLength: 15000,
+      timeout: 20000,
+    });
+
+    // Process for key insights
+    const processed = processFetchedContent(content);
+
+    console.log(`✅ Fetched ${content.content.length} chars from ${content.platform}, ${content.content}`);
+
+    return {
+      success: true,
+      url: content.url,
+      title: content.title,
+      platform: content.platform,
+      content: content.content,
+      summary: processed.summary,
+      interests: processed.interests,
+      personalityTraits: processed.personalityTraits,
+      lifestyleHints: processed.lifestyleHints,
+      spendingStyle: processed.spendingStyle,
+      socialContext: processed.socialContext,
+    };
+  } catch (error) {
+    console.error('❌ URL fetch error:', error);
+    return {
+      success: false,
+      error: 'FETCH_FAILED',
+      message: 'Failed to fetch URL. Please try pasting the content directly.',
+    };
+  }
+}
 
 // ============================================
 // PROMPT ENGINEERING LIBRARY
@@ -178,22 +235,94 @@ ANALYZE FOR:
 export async function generateInsight(input: { mode: string; content: string }, locale: string = 'en') {
   console.log('👻 Ghost is thinking about:', input, 'Language:', locale);
 
-  // MOCK MODE - Set content to "MOCK" to enable
-  if (input.content === 'MOCK 123456') {
-    console.log('🎭 Using MOCK result for debugging');
-    await new Promise(resolve => setTimeout(resolve, 10000)); // 10秒演示
+  // ============ Rate Limiting ============
+  const headersList = await nextHeaders();
+  const rateLimitResult = await checkRateLimit(headersList, {
+    anonymousId: headersList.get('x-anonymous-id') || undefined,
+    // userId: 如果有登录用户，传入用户 ID
+  });
+
+  if (rateLimitResult && !rateLimitResult.allowed) {
+    console.log('🚫 Rate limit exceeded');
     return {
+      success: false,
+      error: 'RATE_LIMIT_EXCEEDED',
+      message: 'rateLimit',
+      limit: rateLimitResult.limit,
+      remaining: 0,
+      resetAt: rateLimitResult.resetAt.toISOString(),
+    };
+  }
+  // ============ End Rate Limiting ============
+
+  // ============ MOCK MODE ============
+  // Test full tracking flow without calling AI
+  if (process.env.MOCK_MODE === 'true' || input.content.includes('[MOCK]')) {
+    console.log('🔮 MOCK MODE: Skipping AI call, returning mock data');
+
+    // Mock AI response based on locale
+    const mockData = {
       success: true,
-      persona: locale === 'zh-CN' ? '忙碌的咖啡控' : locale === 'zh-HK' ? '忙碌既咖啡控' : 'The Busy Coffee Lover',
-      pain_point: locale === 'zh-CN' ? '每天睡眠不足，却还在疯狂加班' : locale === 'zh-HK' ? '每日睡眠不足，仲喺度疯狂加班' : 'Running on empty but still powering through work',
-      obsession: locale === 'zh-CN' ? '对精品咖啡的执念，手冲就是他的冥想时刻' : locale === 'zh-HK' ? '對精品咖啡既執念，手冲就係佢既冥想時刻' : 'Obsessed with specialty coffee - pour-over is his meditation',
+      persona: locale === 'zh-CN' ? '疲惫的绿植控' : locale === 'zh-HK' ? '疲憊的綠植控' : 'The Tired Dreamer',
+      pain_point: locale === 'zh-CN' ? '城市生活空间有限，但渴望接触自然' : 'Urban living limits space, but craves connection with nature',
+      obsession: locale === 'zh-CN' ? '把狭小的阳台变成秘密花园' : 'Transforming tiny balconies into secret gardens',
       gift_recommendation: {
-        item: locale === 'zh-CN' ? 'Hario V60 树脂滤杯套装' : locale === 'zh-HK' ? 'Hario V60  resin濾杯套装' : 'Hario V60 Ceramic Pour-Over Set',
-        reason: locale === 'zh-CN' ? '早上 5 分钟的手冲仪式，让他找到片刻宁静。V60 的流速感能让他专注于当下，暂时忘记待办事项。' : locale === 'zh-HK' ? '朝早 5 分鐘既手冲儀式，令佢搵到片刻寧靜。V60 既流速感能夠令佢專注於當下，暫時忘記待辦事項。' : 'A 5-minute pour-over ritual that gives him pause in the chaos. The V60\'s flow makes him focus on the present moment.',
-        buy_link: 'https://www.google.com/search?q=Hario+V60+Ceramic+Dripper',
-        price_range: locale === 'zh-CN' ? '¥200-350' : locale === 'zh-HK' ? '$200-350' : '$30-50',
+        item: locale === 'zh-CN' ? 'Mighty Vyne 墙面垂直花园' : 'Mighty Vyne Wall-Mounted Vertical Garden',
+        reason: locale === 'zh-CN' ? '解决空间约束，同时滋养她的植物热爱。创造一个活着的艺术，她可以在会议间隙花5分钟照料。' : 'Solves space constraint while feeding her plant obsession. Creates a living piece of art she can tend to in 5 minutes between meetings.',
+        buy_link: 'https://www.google.com/search?q=Mighty+Vyne+Wall+Mounted+Vertical+Garden',
+        price_range: '$45-80',
       },
     };
+
+    // Use real traceId from startAISession for proper tracking
+    const responseTimeMs = 1500;
+    let realTraceId: string = 'mock-' + Date.now();
+
+    try {
+      realTraceId = await startAISession({
+        input_mode: input.mode,
+        input_content: input.content,
+        locale,
+      });
+
+      await completeAISession(realTraceId, {
+        persona: mockData.persona,
+        pain_point: mockData.pain_point,
+        obsession: mockData.obsession,
+        gift_item: mockData.gift_recommendation.item,
+        gift_reason: mockData.gift_recommendation.reason,
+        gift_price_range: mockData.gift_recommendation.price_range,
+        gift_buy_link: mockData.gift_recommendation.buy_link,
+        response_time_ms: responseTimeMs,
+      });
+
+      console.log('📍 Mock trace completed:', realTraceId);
+    } catch (error) {
+      console.error('Failed to track mock session:', error);
+    }
+
+    // Simulate delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    console.log('🎁 Mock GiftGhost insight generated:', mockData.persona);
+    return { ...mockData, trace_id: realTraceId, response_time_ms: responseTimeMs };
+  }
+  // ============ END MOCK MODE ============
+
+  const startTime = Date.now();
+  let traceId: string | null = null;
+
+  // 1. 开始追踪，创建 AI 会话记录
+  try {
+    traceId = await startAISession({
+      input_mode: input.mode,
+      input_content: input.content,
+      locale,
+    });
+    console.log('📍 Trace started:', traceId);
+  } catch (error) {
+    console.error('Failed to start trace:', error);
+    // 继续执行，不影响主要功能
   }
 
   const minDelay = new Promise((resolve) => setTimeout(resolve, 2500));
@@ -231,6 +360,7 @@ export async function generateInsight(input: { mode: string; content: string }, 
 
     const normalized = {
       success: true,
+      trace_id: traceId,  // 返回 trace_id
       persona: result.persona || 'The Mystery Guest',
       pain_point: result.pain_point || 'Keeping their interests a secret',
       obsession: result.obsession || 'The unknown treasure',
@@ -245,14 +375,47 @@ export async function generateInsight(input: { mode: string; content: string }, 
       }),
     };
 
+    // 2. 完成追踪
+    if (traceId) {
+      try {
+        await completeAISession(traceId, {
+          persona: normalized.persona,
+          pain_point: normalized.pain_point,
+          obsession: normalized.obsession,
+          gift_item: normalized.gift_recommendation.item,
+          gift_reason: normalized.gift_recommendation.reason,
+          gift_price_range: normalized.gift_recommendation.price_range,
+          gift_buy_link: normalized.gift_recommendation.buy_link,
+          response_time_ms: Date.now() - startTime,
+        });
+        // 清除 trace cookie，下次生成新 trace
+        clearTraceCookie();
+        console.log('📍 Trace completed:', traceId);
+      } catch (error) {
+        console.error('Failed to complete trace:', error);
+      }
+    }
+
     console.log('🎁 GiftGhost insight generated:', normalized.persona);
     return normalized;
 
   } catch (error) {
     console.error('AI Error:', error);
+
+    // 3. 追踪失败
+    if (traceId) {
+      try {
+        await failAISession(traceId, String(error), Date.now() - startTime);
+        clearTraceCookie();
+      } catch (traceError) {
+        console.error('Failed to fail trace:', traceError);
+      }
+    }
+
     return {
       success: false,
       error: "The Ghost is confused. (Check API Key)",
+      trace_id: traceId,
       persona: "The Mystery",
       pain_point: "Unknown",
       obsession: "Unknown",

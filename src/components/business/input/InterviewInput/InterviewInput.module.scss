@@ -1,0 +1,84 @@
+@use '../../../../app/_design-tokens.scss' as *;
+
+.interviewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 640px) {
+    gap: 24px;
+  }
+}
+
+.questionItem {
+  position: relative;
+}
+
+.guidingQuestion {
+  font-size: 0.8rem;
+  color: var(--mode-color, #FF7F6E);
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: rgba(var(--mode-color-rgb, 195, 175, 255), 0.1);
+  border-radius: 8px;
+  line-height: 1.4;
+}
+
+.questionInput {
+  @include input-base;
+  padding-left: 16px;
+  padding-right: 48px;
+  height: 56px;
+
+  &:focus {
+    border-color: rgba(var(--mode-color-rgb, 255, 127, 110), 0.5);
+    box-shadow: 0 0 20px rgba(var(--mode-color-rgb, 255, 127, 110), 0.2);
+  }
+}
+
+.successIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--mode-color, #FF7F6E);
+  animation: scaleIn 0.4s ease;
+}
+
+.progressDots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 16px;
+
+  @media (min-width: 640px) {
+    padding-top: 24px;
+  }
+}
+
+.progressDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-soft, #FFF5EB);
+  transition: all 0.3s ease;
+
+  &.filled {
+    background: var(--mode-color, #FF7F6E);
+    animation: dotPulse 0.5s ease;
+
+    @keyframes dotPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.4);
+      }
+    }
+  }
+}

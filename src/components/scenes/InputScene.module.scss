@@ -1,5 +1,47 @@
 @use '../../app/_design-tokens.scss' as *;
 
+// Profile Section
+.profileSection {
+  margin-top: 48px;
+  margin-bottom: 20px;
+}
+
+.profileToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(255, 127, 110, 0.08), rgba(150, 222, 195, 0.08));
+  border: 2px solid rgba(255, 127, 110, 0.15);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(255, 127, 110, 0.12), rgba(150, 222, 195, 0.12));
+    border-color: rgba(255, 127, 110, 0.25);
+  }
+}
+
+.profileToggleLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #3C3C43);
+}
+
+.profileIcon {
+  color: var(--color-coral, #FF7F6E);
+}
+
+.profileContent {
+  overflow: hidden;
+}
+
 .inputScene {
   width: 100%;
   max-width: 768px;
@@ -42,9 +84,12 @@
   animation: pulseScale 2s ease-in-out infinite;
 
   @keyframes pulseScale {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.05);
     }
@@ -109,9 +154,12 @@
   }
 
   @keyframes emojiBounce {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0) scale(1);
     }
+
     50% {
       transform: translateY(-4px) scale(1.1);
     }
@@ -190,9 +238,11 @@
     0% {
       transform: scale(0);
     }
+
     50% {
       transform: scale(1.2);
     }
+
     100% {
       transform: scale(1);
     }
@@ -260,7 +310,7 @@
   pointer-events: none;
   z-index: 2;
 
-  .questionInput:focus + &,
+  .questionInput:focus+&,
   .hasValue & {
     font-size: 0.825rem;
     top: -8px;
@@ -317,9 +367,12 @@
     animation: dotPulse 0.5s ease;
 
     @keyframes dotPulse {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: scale(1);
       }
+
       50% {
         transform: scale(1.4);
       }
@@ -386,12 +439,15 @@
       0% {
         transform: rotate(0deg);
       }
+
       25% {
         transform: rotate(-15deg);
       }
+
       75% {
         transform: rotate(15deg);
       }
+
       100% {
         transform: rotate(0deg);
       }
@@ -483,13 +539,97 @@
     animation: pulseGentle 3s ease-in-out infinite;
 
     @keyframes pulseGentle {
-      0%, 100% {
+
+      0%,
+      100% {
         opacity: 0.5;
       }
+
       50% {
         opacity: 1;
       }
     }
+  }
+}
+
+// URL Fetch Status
+.fetchStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(255, 127, 110, 0.08), rgba(255, 160, 150, 0.08));
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: var(--color-coral, #FF7F6E);
+  font-weight: 500;
+}
+
+.fetchSpinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-coral, #FF7F6E);
+}
+
+.fetchSuccess {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(150, 222, 195, 0.1), rgba(150, 222, 195, 0.15));
+  border-radius: 12px;
+  border: 1px solid rgba(150, 222, 195, 0.3);
+}
+
+.successHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-mint, #96DEC3);
+  margin-bottom: 12px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.detectedInterests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.interestTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: white;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #646469);
+  box-shadow: 0 2px 8px rgba(150, 222, 195, 0.2);
+}
+
+.fetchError {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 127, 110, 0.08);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: var(--color-coral, #FF7F6E);
+  font-weight: 500;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
 }
 
@@ -539,12 +679,10 @@
     position: absolute;
     inset: 0;
     opacity: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent);
     transition: opacity 0.3s ease;
 
     .submitButton:not(:disabled):hover & {
@@ -556,6 +694,7 @@
       0% {
         left: -100%;
       }
+
       100% {
         left: 100%;
       }
@@ -583,9 +722,12 @@
       animation: pulseHeart 2s ease-in-out infinite;
 
       @keyframes pulseHeart {
-        0%, 100% {
+
+        0%,
+        100% {
           transform: scale(1);
         }
+
         50% {
           transform: scale(1.1);
         }
@@ -628,6 +770,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -643,6 +786,7 @@
       opacity: 0;
       transform: translateX(20px);
     }
+
     to {
       opacity: 1;
       transform: translateX(0);

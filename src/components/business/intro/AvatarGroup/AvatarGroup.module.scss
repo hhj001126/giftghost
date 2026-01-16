@@ -1,0 +1,24 @@
+@use '../../../../app/_design-tokens.scss' as *;
+
+.avatarGroup {
+  display: flex;
+  gap: -8px;
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba($color-coral, 0.2) 0%, rgba($color-mint, 0.2) 100%);
+    border: 2px solid white;
+    margin-left: -8px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @media (min-width: 640px) {
+      width: 36px;
+      height: 36px;
+    }
+  }
+}

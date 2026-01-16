@@ -1,112 +1,125 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    Search, MessageSquare, Sparkles,
-    Zap, Check, Heart
-} from 'lucide-react';
+import { Zap, Sparkles, Heart, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button, SceneWrapper } from '@/components/ui';
 import { useI18n } from '@/i18n';
+import { ModeSelector, InputCard, ProfileQuickInput } from '@/components/business/input';
 import styles from './InputScene.module.scss';
 
-type InputMode = 'DETECTIVE' | 'LISTENER' | 'INTERVIEW';
+type InputMode = 'LISTENER' | 'INTERVIEW';
 
 interface InputSceneProps {
     onNext: (data: { mode: string; content: string }) => void;
 }
 
-const modes = [
-    {
-        id: 'DETECTIVE' as const,
-        emoji: '🕵️',
-        color: 'coral',
-        colorRgb: '255, 127, 110',
-    },
-    {
-        id: 'LISTENER' as const,
-        emoji: '👂',
-        color: 'mint',
-        colorRgb: '150, 222, 195',
-    },
-    {
-        id: 'INTERVIEW' as const,
-        emoji: '💬',
-        color: 'lavender',
-        colorRgb: '195, 175, 255',
-    },
-];
-
-const interviewQuestions = [
-    { key: 'pain', labelKey: 'pain.label', prefixKey: 'pain.prefix' },
-    { key: 'joy', labelKey: 'joy.label', prefixKey: 'joy.prefix' },
-    { key: 'secret', labelKey: 'secret.label', prefixKey: 'secret.prefix' },
-];
-
-// Helper to get nested translation
-function getNestedTranslation(obj: Record<string, any>, path: string): string {
-    const result = path.split('.').reduce((acc: any, part) => acc?.[part], obj);
-    return typeof result === 'string' ? result : path;
+interface ProfileData {
+    gender?: string;
+    ageRange?: string;
+    mbti?: string;
+    interests?: string[];
 }
 
 export function InputScene({ onNext }: InputSceneProps) {
     const { t } = useI18n();
-    const [mode, setMode] = useState<InputMode>('DETECTIVE');
-    const [inputVal, setInputVal] = useState('');
+    const [mode, setMode] = useState<InputMode>('LISTENER');
+    const [showProfileQuick, setShowProfileQuick] = useState(true);
+    const [profileData, setProfileData] = useState<ProfileData>({});
     const [interviewAnswers, setInterviewAnswers] = useState({
         pain: '',
         joy: '',
         secret: '',
+        style: '',
+    });
+    const [memoryLaneAnswers, setMemoryLaneAnswers] = useState({
+        morning: '',
+        work: '',
+        comfort: '',
+        quirks: '',
+        relationships: '',
+        dreams: '',
     });
     const [focusedField, setFocusedField] = useState<string | null>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
 
-    const currentMode = modes.find(m => m.id === mode)!;
+    const isFormValid = mode === 'INTERVIEW'
+        ? Object.values(interviewAnswers).some(v => v && typeof v === 'string' && v.trim().length > 0)
+        : Object.values(memoryLaneAnswers).some(v => v && typeof v === 'string' && v.trim().length > 0);
 
-    // Get translated values
-    const tModes = t.input.modes;
-    const tPlaceholder = t.input.placeholder;
-
-    const getModeLabel = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.label`);
-    const getModeShortDesc = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.shortDesc`);
-    const getModeDescription = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.description`);
-    const getModeHint = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.hint`);
-    const getModeTips = (id: string) => getNestedTranslation(tModes, `${id.toLowerCase()}.tips`);
-    const getPlaceholder = (id: string) => getNestedTranslation(tPlaceholder, id.toLowerCase());
-
-    const getCharFeedback = (text: string) => {
-        const length = text.length;
-        const charFeedback = t.input.charFeedback;
-        if (length === 0) return { message: '', class: '' };
-        if (length < 10) return { message: charFeedback.gettingThere, class: styles.gettingThere };
-        if (length < 30) return { message: charFeedback.niceDetail, class: styles.niceDetail };
-        if (length < 50) return { message: charFeedback.onFire, class: styles.onFire };
-        return { message: charFeedback.perfection, class: styles.perfection };
+    const handleModeChange = (newMode: InputMode) => {
+        setMode(newMode);
+        setInterviewAnswers({ pain: '', joy: '', secret: '', style: '' });
+        setMemoryLaneAnswers({ morning: '', work: '', comfort: '', quirks: '', relationships: '', dreams: '' });
+        setFocusedField(null);
     };
 
-    const charFeedback = getCharFeedback(inputVal);
-    const isFormValid = mode === 'INTERVIEW'
-        ? Object.values(interviewAnswers).some(v => v.trim())
-        : inputVal.trim().length >= 5;
+    const handleInterviewAnswerChange = (key: string, value: string) => {
+        setInterviewAnswers(prev => ({ ...prev, [key]: value }));
+    };
+
+    const handleMemoryLaneAnswerChange = (key: string, value: string) => {
+        setMemoryLaneAnswers(prev => ({ ...prev, [key]: value }));
+    };
+
+    const handleProfileComplete = () => {
+        setShowProfileQuick(false);
+    };
 
     const handleSubmit = () => {
-        if (mode === 'INTERVIEW') {
-            const content = JSON.stringify(interviewAnswers);
-            if (Object.values(interviewAnswers).some(v => v.trim())) {
-                onNext({ mode, content });
-            }
-        } else if (inputVal.trim().length >= 5) {
-            onNext({ mode, content: inputVal });
+        // Combine profile data with mode-specific answers
+        const combinedData = {
+            profile: profileData,
+            answers: mode === 'INTERVIEW' ? interviewAnswers : memoryLaneAnswers,
+        };
+        const content = JSON.stringify(combinedData);
+
+        const hasAnswers = mode === 'INTERVIEW'
+            ? Object.values(interviewAnswers).some(v => v && typeof v === 'string' && v.trim().length > 0)
+            : Object.values(memoryLaneAnswers).some(v => v && typeof v === 'string' && v.trim().length > 0);
+
+        if (hasAnswers) {
+            onNext({ mode, content });
         }
     };
-
-    useEffect(() => {
-        if (mode !== 'INTERVIEW' && inputRef.current) {
-            setTimeout(() => inputRef.current?.focus(), 300);
-        }
-    }, [mode]);
 
     return (
         <SceneWrapper variant="slide" centered={false} fullWidth={false}>
+            {/* Profile Quick Input - Collapsible */}
+            <div className={styles.profileSection}>
+                <button
+                    className={styles.profileToggle}
+                    onClick={() => setShowProfileQuick(!showProfileQuick)}
+                >
+                    <div className={styles.profileToggleLeft}>
+                        <Sparkles size={18} className={styles.profileIcon} />
+                        <span>{t.input.profileQuick.header.title}</span>
+                    </div>
+                    <motion.div
+                        animate={{ rotate: showProfileQuick ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {showProfileQuick ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                    </motion.div>
+                </button>
+
+                <AnimatePresence>
+                    {showProfileQuick && (
+                        <motion.div
+                            className={styles.profileContent}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <ProfileQuickInput
+                                value={profileData}
+                                onChange={setProfileData}
+                                onComplete={handleProfileComplete}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+
             {/* Header */}
             <div className={styles.header}>
                 <motion.div
@@ -121,212 +134,25 @@ export function InputScene({ onNext }: InputSceneProps) {
             </div>
 
             {/* Mode Selector */}
-            <div className={styles.modeSelector}>
-                {modes.map((m, i) => {
-                    const isActive = mode === m.id;
-                    const label = getModeLabel(m.id);
-                    const shortDesc = getModeShortDesc(m.id);
-
-                    return (
-                        <motion.button
-                            key={m.id}
-                            onClick={() => {
-                                setMode(m.id);
-                                setInputVal('');
-                                setInterviewAnswers({ pain: '', joy: '', secret: '' });
-                            }}
-                            className={`${styles.modeCard} ${isActive ? styles.active : ''}`}
-                            style={{
-                                '--mode-color': `var(--color-${m.color})`,
-                                '--mode-color-light': `var(--color-${m.color}-light)`,
-                                '--mode-color-rgb': m.colorRgb,
-                            } as React.CSSProperties}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            {isActive && <div className={styles.activeBg} />}
-                            <div className={styles.emoji}>{m.emoji}</div>
-                            <div className={styles.modeLabel}>{label}</div>
-                            <div className={styles.modeDesc}>{shortDesc}</div>
-                            {isActive && (
-                                <motion.div
-                                    layoutId="checkIcon"
-                                    className={styles.checkIcon}
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ type: "spring", stiffness: 500, delay: 0.1 }}
-                                >
-                                    <Check size={14} />
-                                </motion.div>
-                            )}
-                        </motion.button>
-                    );
-                })}
-            </div>
+            <ModeSelector
+                selectedMode={mode}
+                onModeChange={handleModeChange}
+            />
 
             {/* Input Card */}
-            <motion.div
-                className={styles.inputCard}
-                style={{
-                    '--mode-color': `var(--color-${currentMode.color})`,
-                    '--mode-color-light': `var(--color-${currentMode.color}-light)`,
-                    '--mode-color-rgb': currentMode.colorRgb,
-                } as React.CSSProperties}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-            >
-                <div className={styles.gradientBar} />
-
-                {/* Description */}
-                <AnimatePresence mode="wait">
-                    <motion.p
-                        key={mode}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className={styles.description}
-                    >
-                        {getModeDescription(mode)}
-                    </motion.p>
-                </AnimatePresence>
-
-                <AnimatePresence mode="wait">
-                    {mode === 'INTERVIEW' ? (
-                        <motion.div
-                            key="interview"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className={styles.interviewContainer}
-                        >
-                            {interviewQuestions.map((q, i) => {
-                                const answer = interviewAnswers[q.key as keyof typeof interviewAnswers];
-                                const isFocused = focusedField === q.key;
-                                const hasAnswer = answer.trim().length > 0;
-
-                                return (
-                                    <motion.div
-                                        key={q.key}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.3 + i * 0.1 }}
-                                        className={styles.questionItem}
-                                    >
-                                        <input
-                                            type="text"
-                                            value={answer}
-                                            onChange={(e) => setInterviewAnswers(prev => ({
-                                                ...prev,
-                                                [q.key]: e.target.value
-                                            }))}
-                                            onFocus={() => setFocusedField(q.key)}
-                                            onBlur={() => setFocusedField(null)}
-                                            className={`${styles.questionInput} ${hasAnswer ? styles.hasValue : ''}`}
-                                            placeholder={`... ${getNestedTranslation(t.input.modes.interview, q.prefixKey)}`}
-                                        />
-                                        <motion.label
-                                            className={styles.floatingLabel}
-                                            animate={{
-                                                scale: isFocused ? 0.9 : 1,
-                                            }}
-                                        >
-                                            {isFocused ? getNestedTranslation(t.input.modes.interview, q.labelKey) : ''}
-                                        </motion.label>
-                                        {hasAnswer && (
-                                            <motion.div
-                                                initial={{ scale: 0, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                className={styles.successIcon}
-                                            >
-                                                <Check size={20} />
-                                            </motion.div>
-                                        )}
-                                    </motion.div>
-                                );
-                            })}
-
-                            {/* Progress dots */}
-                            <div className={styles.progressDots}>
-                                {interviewQuestions.map((q) => (
-                                    <motion.div
-                                        key={q.key}
-                                        className={`${styles.progressDot} ${interviewAnswers[q.key as keyof typeof interviewAnswers].trim() ? styles.filled : ''}`}
-                                        animate={{
-                                            scale: interviewAnswers[q.key as keyof typeof interviewAnswers].trim() ? [1, 1.4, 1] : 1,
-                                        }}
-                                        transition={{ duration: 0.3 }}
-                                    />
-                                ))}
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="standard"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className={styles.standardContainer}
-                        >
-                            {/* Floating placeholder */}
-                            <AnimatePresence>
-                                {inputVal.length === 0 && (
-                                    <motion.label
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className={styles.floatingPlaceholder}
-                                    >
-                                        {getPlaceholder(mode)}
-                                        <motion.span
-                                            animate={{ opacity: [0.3, 1, 0.3] }}
-                                            transition={{ duration: 1, repeat: Infinity }}
-                                        >
-                                            |
-                                        </motion.span>
-                                    </motion.label>
-                                )}
-                            </AnimatePresence>
-
-                            {/* Input */}
-                            <div className={styles.inputWrapper}>
-                                <motion.div
-                                    className={`${styles.inputIcon} ${focusedField ? styles.focused : ''}`}
-                                    animate={{
-                                        rotate: focusedField ? [0, -10, 10, 0] : 0,
-                                    }}
-                                    transition={{ duration: 0.5 }}
-                                >
-                                    {mode === 'DETECTIVE' ? <Search size={20} /> : <MessageSquare size={20} />}
-                                </motion.div>
-
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    value={inputVal}
-                                    onChange={(e) => setInputVal(e.target.value)}
-                                    onFocus={() => setFocusedField('main')}
-                                    onBlur={() => setFocusedField(null)}
-                                    className={`${styles.textInput} ${focusedField ? styles.focused : ''}`}
-                                    autoFocus
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-                                />
-                            </div>
-
-                            {/* Hint */}
-                            {getModeHint(mode) && (
-                                <div className={styles.hint}>
-                                    <Sparkles size={12} />
-                                    <span>{getModeHint(mode)}</span>
-                                </div>
-                            )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </motion.div>
+            <InputCard
+                mode={mode}
+                interviewAnswers={interviewAnswers}
+                interviewFocusedField={focusedField}
+                onInterviewAnswerChange={handleInterviewAnswerChange}
+                onInterviewFieldFocus={(key) => setFocusedField(key)}
+                onInterviewFieldBlur={() => setFocusedField(null)}
+                memoryLaneAnswers={memoryLaneAnswers}
+                memoryLaneFocusedField={focusedField}
+                onMemoryLaneAnswerChange={handleMemoryLaneAnswerChange}
+                onMemoryLaneFieldFocus={(key) => setFocusedField(key)}
+                onMemoryLaneFieldBlur={() => setFocusedField(null)}
+            />
 
             {/* Submit Button */}
             <div className={styles.submitWrapper}>
@@ -360,7 +186,7 @@ export function InputScene({ onNext }: InputSceneProps) {
                 className={styles.tips}
             >
                 <span>💡</span>
-                <span>{getModeTips(mode)}</span>
+                <span>{t.input.modes[mode.toLowerCase() as keyof typeof t.input.modes]?.tips || ''}</span>
             </motion.p>
         </SceneWrapper>
     );

@@ -1,0 +1,98 @@
+@use '../../../../app/_design-tokens.scss' as *;
+
+.insightCard {
+  @include card-base;
+  padding: 20px;
+
+  @media (min-width: 640px) {
+    padding: 24px;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.insightHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 16px;
+    gap: 12px;
+  }
+
+  .iconWrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (min-width: 640px) {
+      width: 36px;
+      height: 36px;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+
+      @media (min-width: 640px) {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .coralIcon {
+    background: rgba($color-coral, 0.2);
+
+    svg {
+      color: $color-coral;
+    }
+  }
+
+  .lavenderIcon {
+    background: rgba($color-lavender, 0.3);
+
+    svg {
+      color: $color-lavender;
+    }
+  }
+
+  .label {
+    font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    @media (min-width: 640px) {
+      font-size: 0.875rem;
+    }
+  }
+
+  .coralLabel {
+    color: $color-coral;
+  }
+
+  .lavenderLabel {
+    color: $color-lavender;
+  }
+}
+
+.insightContent {
+  font-family: var(--font-body, system-ui);
+  font-size: 0.9375rem;
+  color: $color-text-primary;
+  line-height: 1.6;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}

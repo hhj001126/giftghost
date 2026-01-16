@@ -1,0 +1,1 @@
+export { SparkleParticles } from './SparkleParticles';
