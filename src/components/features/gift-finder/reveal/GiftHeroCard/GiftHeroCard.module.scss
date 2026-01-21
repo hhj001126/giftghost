@@ -1,0 +1,103 @@
+@use '../../../../../app/_design-tokens.scss' as *;
+
+.giftHeroCard {
+  @include card-base;
+  padding: 24px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, $color-coral 0%, $color-coral-light 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+
+  @media (min-width: 640px) {
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.cardHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  @media (min-width: 640px) {
+    margin-bottom: 20px;
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: $color-sunshine;
+
+    @media (min-width: 640px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.giftTitle {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+
+  @media (min-width: 640px) {
+    font-size: 1.75rem;
+    margin-bottom: 16px;
+  }
+}
+
+.reasonBox {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  @media (min-width: 640px) {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+  }
+
+  p {
+    font-family: var(--font-body, system-ui);
+    font-size: 0.9375rem;
+    font-style: italic;
+    line-height: 1.6;
+    opacity: 0.95;
+
+    @media (min-width: 640px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.priceRange {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body, system-ui);
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 16px;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+}

@@ -1,0 +1,324 @@
+@use '../../../../../app/_design-tokens.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 245, 0.9));
+  border-radius: 24px;
+  border: 2px solid rgba(255, 127, 110, 0.1);
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerIcon {
+  @include flex-center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--color-coral, #FF7F6E), var(--color-coral-light, #FFB5AA));
+  color: white;
+  box-shadow: 0 6px 20px rgba(255, 127, 110, 0.3);
+}
+
+.headerContent {
+  flex: 1;
+}
+
+.headerTitle {
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #3C3C43);
+  margin: 0;
+}
+
+.headerSubtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #A0A0A5);
+  margin: 4px 0 0;
+}
+
+// Progress Bar
+.progressBar {
+  height: 6px;
+  background: var(--color-soft, #FFF5EB);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-coral, #FF7F6E), var(--color-mint, #96DEC3));
+  border-radius: 3px;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #A0A0A5);
+}
+
+.completeText {
+  color: var(--color-mint, #96DEC3);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+// Sections
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+
+  &.completed {
+    border-color: rgba(150, 222, 195, 0.4);
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-soft, #FFF5EB);
+  }
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body, system-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #3C3C43);
+}
+
+.sectionEmoji {
+  font-size: 1.3rem;
+}
+
+.checkIcon {
+  color: var(--color-mint, #96DEC3);
+  margin-left: 8px;
+}
+
+.sectionContent {
+  overflow: hidden;
+  padding: 16px 16px;
+}
+
+// Gender Options
+.genderGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.genderOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--color-soft, #FFF5EB);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 127, 110, 0.05);
+  }
+
+  &.selected {
+    border-color: var(--color-coral, #FF7F6E);
+    background: rgba(255, 127, 110, 0.08);
+  }
+}
+
+.genderEmoji {
+  font-size: 1.5rem;
+}
+
+.genderLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #3C3C43);
+}
+
+// Age Options
+.ageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ageOption {
+  padding: 12px 16px;
+  background: var(--color-soft, #FFF5EB);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #3C3C43);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 127, 110, 0.05);
+  }
+
+  &.selected {
+    border-color: var(--color-coral, #FF7F6E);
+    background: rgba(255, 127, 110, 0.08);
+    color: var(--color-coral, #FF7F6E);
+  }
+}
+
+// MBTI Options
+.mbtiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.mbtiOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 8px;
+  background: var(--color-soft, #FFF5EB);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 127, 110, 0.05);
+  }
+
+  &.selected {
+    border-color: var(--color-coral, #FF7F6E);
+    background: rgba(255, 127, 110, 0.08);
+  }
+}
+
+.mbtiValue {
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #3C3C43);
+}
+
+.mbtiDesc {
+  font-size: 0.7rem;
+  color: var(--color-text-muted, #A0A0A5);
+  margin-top: 2px;
+}
+
+// Interest Tags
+.interestsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.interestTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--color-soft, #FFF5EB);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:hover {
+    background: rgba(255, 127, 110, 0.05);
+  }
+
+  &.selected {
+    border-color: var(--color-coral, #FF7F6E);
+    background: rgba(255, 127, 110, 0.08);
+  }
+}
+
+.tagEmoji {
+  font-size: 1.1rem;
+}
+
+.tagLabel {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #3C3C43);
+}
+
+.tagCheck {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-coral, #FF7F6E);
+  color: white;
+  @include flex-center;
+}
+
+// Complete Button
+.completeButton {
+  @include flex-center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--color-coral, #FF7F6E), var(--color-coral-light, #FFB5AA));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--font-display, 'Bubblegum Sans'), cursive;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 127, 110, 0.35);
+  transition: all 0.3s ease;
+  margin-top: 8px;
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(255, 127, 110, 0.45);
+    transform: translateY(-2px);
+  }
+}

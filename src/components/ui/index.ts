@@ -1,6 +1,6 @@
 // UI Components - Re-export all for convenient imports
 export { Button, type ButtonProps } from './Button';
-export { Card, InsightCard, type CardProps } from './Card';
+export { Card, type CardProps } from './Card';
 export {
     SceneWrapper,
     StaggerContainer,
@@ -18,4 +18,7 @@ export {
     GradientMesh,
     NoiseOverlay,
     FullBackground,
-} from '../background';
+    type ParticleConfig,
+    type ShapeConfig,
+    type FullBackgroundProps,
+} from './Background';

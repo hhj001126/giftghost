@@ -1,0 +1,61 @@
+@use '../../../../../app/_design-tokens.scss' as *;
+
+.giftContainer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+
+  @media (min-width: 640px) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.giftBody {
+  position: absolute;
+  inset: 10px;
+  background: $gradient-coral;
+  border-radius: 16px;
+  box-shadow: $shadow-float;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+
+  svg {
+    width: 32px;
+    height: 32px;
+    color: white;
+
+    @media (min-width: 640px) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+.ribbon {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  right: 3px;
+  height: 7px;
+  background: $color-sunshine;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.sparkleRing {
+  position: absolute;
+  inset: -5px;
+  border: 2px dashed rgba($color-sunshine, 0.3);
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}

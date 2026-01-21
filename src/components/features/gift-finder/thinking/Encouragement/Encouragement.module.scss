@@ -1,0 +1,14 @@
+@use '../../../../../app/_design-tokens.scss' as *;
+
+.encouragement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.encouragementEmoji {
+  font-size: 1.125rem;
+  display: inline-block;
+}

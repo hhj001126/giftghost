@@ -1,0 +1,26 @@
+@use '../../../../../app/_design-tokens.scss' as *;
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  color: rgba($color-text-muted, 0.5);
+  font-size: 0.875rem;
+
+  @media (min-width: 640px) {
+    margin-top: 40px;
+    gap: 12px;
+    font-size: 1rem;
+  }
+
+  span:first-child,
+  span:last-child {
+    font-size: 1.25rem;
+
+    @media (min-width: 640px) {
+      font-size: 1.5rem;
+    }
+  }
+}

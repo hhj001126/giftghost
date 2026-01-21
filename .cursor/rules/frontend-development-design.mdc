@@ -1,0 +1,863 @@
+---
+description: GiftGhost 前端开发设计规范 - Playful Warmth 设计风格、Coral & Mint 色彩系统、Next.js + React + TypeScript 最佳实践
+globs: ["**/*.tsx", "**/*.ts", "**/*.scss", "**/*.css", "**/*.jsx", "**/*.js"]
+alwaysApply: true
+---
+
+# GiftGhost 前端开发设计规范
+
+## 身份定位
+你是 GiftGhost 项目的前端工程师和 UI/UX 设计师，专注于：
+- Next.js 15 + React 19 + TypeScript 现代前端开发
+- 移动优先的响应式设计
+- Playful Warmth 视觉设计风格
+- 轻松友好的用户体验
+- 国际化 (i18n) 多语言支持
+
+## 设计系统原则
+
+### 设计哲学：Playful Warmth（俏皮的温暖）
+
+GiftGhost 的核心理念是让送礼变得轻松、有趣、无压力。
+
+**五大设计原则**：
+1. **Joy First**（快乐优先）：每个交互都应该带来微笑，动画有趣但不花哨
+2. **Soft & Friendly**（柔和友好）：圆润的边角，柔和的颜色，没有尖锐的线条
+3. **Effortless**（毫不费力）：用户不需要思考如何使用，直觉式交互
+4. **Celebratory**（庆祝感）：发现礼物是值得庆祝的时刻，要有仪式感
+5. **No Pressure**（无压力）：轻松随意的语气，没有神秘庄严的感觉
+
+**目标用户体验**：
+- **亲近**（Warmth）：柔和的颜色和圆角让人感到舒适
+- **好奇**（Curiosity）：有趣的动画吸引人去探索
+- **轻松**（Ease）：交互简单自然，没有学习成本
+- **兴奋**（Excitement）：看到推荐结果时的惊喜感
+- **满足**（Satisfaction）：送礼变得简单又有趣
+
+### 色彩系统：Coral & Mint
+
+#### 主色 - Coral（珊瑚红）
+```scss
+--color-coral: #FF7F6E;        // 主要操作、高亮、CTA 按钮
+--color-coral-light: #FFA096;  // Hover 状态、渐变
+```
+**使用场景**：
+- 主要按钮（Find a Gift、Submit）
+- 链接和交互元素
+- 进度指示器
+- 重要标签和徽章
+
+#### 辅助色 - Mint（薄荷绿）
+```scss
+--color-mint: #96DEC3;         // 成功状态、正向反馈
+--color-mint-light: #B8E8D5;   // 轻微背景、辅助元素
+```
+**使用场景**：
+- 成功消息和完成状态
+- Persona 卡片的点缀色
+- 正向反馈的视觉提示
+
+#### 点缀色
+```scss
+--color-lavender: #C3AFFF;     // 次级强调色
+--color-sunshine: #FFC878;     // 高光、闪烁效果、庆祝元素
+```
+
+#### 背景色 - Cream（奶油白）
+```scss
+--bg-cream: #FFFBF5;           // 主背景
+--bg-warm: #FFF8F0;            // 次级背景
+--bg-soft: #FFF5EB;            // 卡片、输入框表面
+--bg-white: #FFFFFF;           // 纯白对比、卡片背景
+```
+
+#### 文本色
+```scss
+--text-primary: #3C3C43;       // 主文本（温暖灰）
+--text-secondary: #646469;     // 次要文本、说明文字
+--text-muted: #A0A0A5;         // 标签、占位符
+--text-inverse: #FFFFFF;       // 深色背景上的文本
+```
+
+#### 渐变
+```scss
+--gradient-coral: linear-gradient(135deg, #FF7F6E, #FFA096);
+--gradient-joy: linear-gradient(135deg, #FFC878, #FFA096, #FF7F6E);
+```
+
+### 字体系统
+
+#### Display 字体：Bubblegum Sans（俏皮、圆润）
+**特点**：友好、亲近、年轻化
+
+**用途**：
+- 页面标题和 Logo
+- 按钮文字
+- UI 标签
+- 强调文本
+
+**尺寸规范**：
+```scss
+--display-xl: 2.5rem;    // 40px - Hero 标题
+--display-lg: 2rem;      // 32px - 主标题
+--display-md: 1.5rem;    // 24px - 副标题
+--display-sm: 1.25rem;   // 20px - 小标题
+--display-xs: 1rem;      // 16px - 按钮、标签
+```
+
+#### Body 字体：Quicksand（圆润 Sans-serif）
+**特点**：圆润端点，友好几何感
+
+**用途**：
+- 正文内容
+- 描述文字
+- 输入框文字
+- 结果展示
+
+**尺寸规范**：
+```scss
+--text-xl: 1.25rem;      // 20px - 大段落
+--text-lg: 1.125rem;     // 18px - 中段落
+--text-base: 1rem;       // 16px - 标准正文
+--text-sm: 0.875rem;     // 14px - 辅助文字
+--text-xs: 0.75rem;      // 12px - 标注、提示
+```
+
+#### Emoji 使用规范
+✨ **广泛使用 emoji 作为视觉元素，增加亲和力和表现力**
+
+**常用 emoji**：
+- 🎁 🎀 - 礼物相关
+- ✨ 💫 🌟 ⭐ - 闪烁、高光效果
+- 💖 ❤️ 💕 - 喜爱、推荐
+- 🕵️ 👂 💬 - 输入模式图标
+- 💡 🎯 ⚡ - 提示、重点
+- 🎉 🎊 🏆 - 庆祝、成功
+
+### 间距系统
+
+基于 8px 基础网格：
+
+```scss
+--gap-1: 4px;    // 最小间距
+--gap-2: 8px;    // 紧密间距
+--gap-3: 12px;   // 相关项之间
+--gap-4: 16px;   // 标准间距（最常用）
+--gap-6: 24px;   // 区域间距
+--gap-8: 32px;   // 大区域间距
+--gap-12: 48px;  // 超大区域间距
+```
+
+**容器宽度**：
+```scss
+--max-w-md: 768px;   // 主内容宽度
+--max-w-lg: 1024px;  // 宽内容（如需要）
+```
+
+### 圆角系统（Friendly & Round）
+
+```scss
+--radius-sm: 12px;   // 小元素、输入框、标签
+--radius-md: 20px;   // 卡片、按钮、模式选择器
+--radius-lg: 32px;   // 大卡片、结果展示卡片
+--radius-xl: 48px;   // Hero 卡片、特殊容器
+--radius-full: 999px; // 完全圆角按钮
+```
+
+**使用建议**：
+- 按钮使用 `radius-full` 或 `radius-md`
+- 输入框使用 `radius-md` (20px)
+- 内容卡片使用 `radius-lg` (32px)
+- Hero 区域使用 `radius-xl` (48px)
+
+### 阴影系统
+
+```scss
+// 柔和阴影 - 标准卡片
+--shadow-soft: 0 2px 8px rgba(60, 60, 67, 0.08);
+
+// 中等阴影 - hover 状态
+--shadow-medium: 0 4px 16px rgba(60, 60, 67, 0.12);
+
+// 浮动阴影 - 重要元素（按钮、特殊卡片）
+--shadow-float: 0 8px 24px rgba(255, 127, 110, 0.2);
+```
+
+### 动画系统
+
+#### 缓动函数
+```scss
+--ease-bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55);  // 弹跳效果
+--ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);             // 平滑过渡
+--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);        // 弹簧效果
+```
+
+#### 关键动画
+| 动画名称 | 元素 | 描述 |
+|---------|------|------|
+| `bounce-soft` | Gift box intro | 轻柔弹跳，2秒循环 |
+| `wiggle` | Bow、图标 | 微妙的旋转摆动 |
+| `float-soft` | 背景粒子 | 缓慢漂浮+旋转 |
+| `pulse-gentle` | 徽章、图标 | 柔和的缩放脉冲 |
+| `shimmer-joy` | 按钮 | 渐变扫光效果 |
+| `spring-in` | Reveal 卡片 | 弹簧物理入场 |
+
+#### 场景转换时长
+```scss
+Intro → Input:      400ms, easeOut
+Input → Thinking:   300ms, easeInOut
+Thinking → Reveal:  500ms, spring
+Reveal → Input:     400ms, easeOut
+```
+
+## Next.js + React 开发规范
+
+### 项目结构
+
+```
+src/
+├── app/                        # Next.js App Router
+│   ├── layout.tsx              # 根布局（字体加载）
+│   ├── page.tsx                # 主入口（首页）
+│   ├── [其他页面]/             # 其他路由页面
+│   └── globals.css             # 全局样式和 CSS 变量
+├── components/
+│   ├── ui/                     # 通用 UI 组件（跨页面复用）
+│   │   ├── Button/
+│   │   │   ├── Button.tsx
+│   │   │   └── Button.module.scss
+│   │   ├── Card/
+│   │   ├── Input/
+│   │   └── index.ts            # 统一导出
+│   ├── layout/                 # 布局组件
+│   │   ├── Header/
+│   │   ├── Footer/
+│   │   └── Navigation/
+│   ├── features/               # 功能模块组件（按功能领域组织）
+│   │   ├── gift-finder/        # 礼物查找功能
+│   │   │   ├── IntroScene/
+│   │   │   ├── InputScene/
+│   │   │   ├── ThinkingScene/
+│   │   │   └── RevealScene/
+│   │   ├── user-profile/       # 用户资料功能（示例）
+│   │   └── history/            # 历史记录功能（示例）
+│   └── shared/                 # 共享业务组件
+├── hooks/                      # 自定义 Hooks
+│   ├── useI18n.ts
+│   ├── useAuth.ts              # 认证相关
+│   └── useTracking.ts          # 埋点追踪
+├── i18n/                       # 国际化
+│   ├── index.ts                # i18n 配置
+│   └── locales/
+│       ├── en.ts
+│       ├── zh-CN.ts
+│       └── zh-HK.ts
+├── lib/                        # 工具函数和服务
+│   ├── utils.ts
+│   ├── api.ts                  # API 调用
+│   └── supabase.ts             # Supabase 客户端
+├── types/                      # TypeScript 类型定义
+│   └── index.ts
+└── constants/                  # 常量定义
+    └── index.ts
+```
+
+### 组件设计原则
+
+#### 1. 组件分类
+
+**UI 组件** (`src/components/ui/`)
+- 纯展示组件，无业务逻辑
+- 高度可复用，跨页面使用
+- 只接收 props，不访问全局状态
+- 示例：Button、Card、Input、Modal、Dropdown
+
+**Layout 组件** (`src/components/layout/`)
+- 页面布局组件
+- 定义页面整体结构
+- 示例：Header、Footer、Sidebar、Navigation
+
+**Feature 组件** (`src/components/features/`)
+- 按功能领域组织的业务组件
+- 包含完整的功能模块逻辑
+- 可以使用全局状态、API 调用
+- 每个功能模块独立，便于维护和扩展
+- 示例：gift-finder、user-profile、history
+
+**Shared 组件** (`src/components/shared/`)
+- 跨多个功能模块使用的业务组件
+- 包含一定的业务逻辑，但不限定于单一功能
+- 示例：UserAvatar、StatusBadge、ShareButton
+
+#### 2. 组件文件结构
+```typescript
+// 标准组件结构
+ComponentName/
+├── ComponentName.tsx         # 组件实现
+├── ComponentName.module.scss # 组件样式
+└── index.ts                  # 导出文件（可选）
+```
+
+**简单组件可以是单文件**：
+```
+Button.tsx
+Button.module.scss
+```
+
+#### 3. 组件命名
+- **PascalCase**：组件文件名和组件名
+- **语义化命名**：清晰表达组件用途
+- **避免缩写**：使用完整单词（除非是通用缩写）
+
+示例：
+- ✅ `IntroScene.tsx`
+- ✅ `BreathingCard.tsx`
+- ❌ `IS.tsx`
+- ❌ `BCard.tsx`
+
+#### 4. Props 设计
+- **类型安全**：使用 TypeScript 接口定义 Props
+- **默认值**：为可选 Props 提供合理的默认值
+- **文档注释**：为每个 Prop 添加 JSDoc 注释
+- **解构 Props**：在函数参数中解构，提高可读性
+
+```typescript
+interface ButtonProps {
+  /** 按钮变体 */
+  variant?: 'primary' | 'secondary' | 'ghost'
+  /** 按钮大小 */
+  size?: 'sm' | 'md' | 'lg'
+  /** 是否禁用 */
+  disabled?: boolean
+  /** 点击事件 */
+  onClick?: () => void
+  /** 子元素 */
+  children: React.ReactNode
+}
+
+export const Button: React.FC<ButtonProps> = ({
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  onClick,
+  children
+}) => {
+  // 组件实现
+}
+```
+
+#### 5. Hooks 使用
+- **自定义 Hooks**：提取可复用的逻辑
+- **命名规范**：以 `use` 开头
+- **单一职责**：每个 Hook 只做一件事
+- **依赖数组**：正确使用 useEffect 依赖数组
+
+#### 6. 状态管理
+
+**本地状态** (`useState`)
+- 用于组件内部的 UI 状态
+- 不需要跨组件共享的状态
+- 示例：表单输入、下拉菜单展开状态、本地加载状态
+
+**共享状态** (Context API)
+- 用于需要跨多个组件共享的状态
+- 避免 prop drilling
+- 示例：用户认证状态、主题设置、语言偏好
+- 建议创建专用的 Context Provider（如 `AuthProvider`、`ThemeProvider`）
+
+**服务器状态** (自定义 Hooks)
+- 用于 API 数据的获取、缓存和同步
+- 使用自定义 Hooks 封装 API 调用逻辑
+- 示例：`useUserProfile()`、`useGiftRecommendations()`
+- 考虑使用 SWR 或 React Query 进行数据管理
+
+**URL 状态** (Next.js Router)
+- 用于需要在 URL 中体现的状态
+- 便于分享和书签
+- 示例：搜索参数、筛选条件、页面标签
+- 使用 `useSearchParams`、`usePathname` 等 Next.js hooks
+
+**功能模块状态**
+- 在功能模块的根组件中管理
+- 使用状态提升或 Context 在模块内共享
+- 避免全局污染，保持功能模块独立性
+
+### TypeScript 规范
+
+#### 1. 类型定义
+- **接口优先**：使用 `interface` 定义对象类型
+- **类型别名**：使用 `type` 定义联合类型、工具类型
+- **严格模式**：启用严格类型检查
+- **避免 any**：尽量使用具体类型，必要时使用 `unknown`
+
+#### 2. 类型导出
+- **集中管理**：在组件文件中定义类型，或使用 `types/index.ts`
+- **命名规范**：类型名使用 PascalCase，以功能或组件名开头
+- **导出策略**：如果类型会被外部使用，需要导出
+
+```typescript
+// 组件内部类型（不导出）
+interface InternalState {
+  isLoading: boolean;
+}
+
+// 导出类型（供外部使用）
+export interface ButtonProps {
+  variant?: 'primary' | 'secondary';
+}
+
+// 联合类型
+export type InputMode = 'DETECTIVE' | 'LISTENER' | 'INTERVIEW';
+```
+
+#### 3. 泛型使用
+- **合理使用**：在需要类型灵活性时使用泛型
+- **约束泛型**：使用 `extends` 约束泛型类型
+- **默认类型**：为泛型提供默认类型
+
+### SCSS 样式开发规范
+
+#### 1. SCSS 模块化
+- **模块化样式**：每个组件使用 `.module.scss`
+- **命名规范**：使用语义化类名
+- **变量使用**：使用 CSS 变量（不要创建新的 SCSS 变量）
+- **嵌套深度**：最多 3 层嵌套
+
+#### 2. 样式组织顺序
+```scss
+// 组件样式结构
+.component {
+  // 1. 布局属性
+  display: flex;
+  flex-direction: column;
+  
+  // 2. 尺寸属性
+  width: 100%;
+  padding: var(--gap-4);
+  
+  // 3. 视觉属性
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  
+  // 4. 文字属性
+  font-family: 'Quicksand', sans-serif;
+  color: var(--text-primary);
+  
+  // 5. 交互属性
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+  
+  // 6. 状态
+  &:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+```
+
+#### 3. 响应式设计
+- **移动优先**：先设计移动端，再扩展桌面端
+- **断点使用**：使用 `@media` 查询
+- **相对单位**：优先使用 `rem`、`em`、`%`、`vw`、`vh`
+- **弹性布局**：使用 Flexbox 和 Grid
+
+```scss
+// 移动优先示例
+.container {
+  padding: var(--gap-4);
+  
+  // 平板及以上
+  @media (min-width: 768px) {
+    padding: var(--gap-8);
+  }
+  
+  // 桌面端
+  @media (min-width: 1024px) {
+    padding: var(--gap-12);
+  }
+  
+  // Hover 设备优化
+  @media (hover: hover) {
+    &:hover {
+      // 仅在支持 hover 的设备上生效
+      background: var(--bg-soft);
+    }
+  }
+}
+```
+
+#### 4. 使用 CSS 变量
+**✅ 正确做法**：使用现有的 CSS 变量
+```scss
+.button {
+  background: var(--color-coral);
+  border-radius: var(--radius-md);
+  padding: var(--gap-4);
+  color: var(--text-inverse);
+}
+```
+
+**❌ 错误做法**：不要创建新的 SCSS 变量或修改 CSS 变量
+```scss
+// ❌ 不要这样
+$my-color: #FF0000;
+.button {
+  background: $my-color;
+}
+
+// ❌ 不要修改全局 CSS 变量
+:root {
+  --color-coral: #123456; // 不要修改！
+}
+```
+
+## 国际化 (i18n) 规范
+
+### 核心规则：使用 Context Hook，禁止 Prop Drilling
+
+**✅ 正确做法**：每个组件内部使用 `useI18n()` hook
+```typescript
+import { useI18n } from '@/i18n';
+
+function MyComponent() {
+  const { t } = useI18n();
+
+  return (
+    <div>
+      <h1>{t.intro.title}</h1>
+      <button>{t.common.submit}</button>
+    </div>
+  );
+}
+```
+
+**❌ 禁止做法**：通过 props 传递 `t`
+```typescript
+// ❌ 不要这样做
+function ParentComponent() {
+  const { t } = useI18n();
+  return <ChildComponent t={t} />; // ❌ 禁止！
+}
+
+// ❌ 不要这样做
+function ChildComponent({ t }: { t: TFunction }) {
+  return <button>{t.common.submit}</button>; // ❌ 禁止！
+}
+```
+
+### 为什么这样做？
+1. **更清晰的组件**：无需通过中间组件传递翻译 props
+2. **更容易重构**：添加翻译不需要修改父组件
+3. **一致性**：所有组件遵循相同模式
+4. **类型安全**：Hook 确保翻译正确类型化
+
+### 支持的语言
+- `en` - English
+- `zh-CN` - 简体中文
+- `zh-HK` - 繁体中文（香港）
+
+### 翻译结构
+```typescript
+const { t, locale, setLocale } = useI18n();
+
+// 访问翻译
+t.intro.title
+t.input.modes.detective.label
+t.reveal.badge
+t.feedback.like
+```
+
+## 组件设计模式
+
+### 1. 按钮组件
+```scss
+// Primary Button
+.primaryButton {
+  background: var(--gradient-coral);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.75rem 2rem;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: var(--display-xs);
+  font-weight: 600;
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(255, 127, 110, 0.3);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Secondary Button
+.secondaryButton {
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  padding: 0.75rem 2rem;
+  font-family: 'Quicksand', sans-serif;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+  
+  &:hover {
+    color: var(--color-coral);
+    border-color: var(--color-coral);
+    transform: scale(1.05);
+  }
+}
+```
+
+### 2. 卡片组件
+```scss
+// Standard Card
+.card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s var(--ease-smooth);
+  
+  &:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-4px);
+  }
+}
+
+// Hero Card (用于重要推荐)
+.heroCard {
+  background: var(--gradient-coral);
+  color: var(--text-inverse);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-float);
+  transition: all 0.3s var(--ease-spring);
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+```
+
+### 3. 输入框组件
+```scss
+.input {
+  background: var(--bg-soft);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  transition: all 0.2s var(--ease-smooth);
+  
+  &::placeholder {
+    color: var(--text-muted);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: rgba(255, 127, 110, 0.3);
+    box-shadow: 0 0 0 4px rgba(255, 127, 110, 0.1);
+    background: var(--bg-white);
+  }
+}
+```
+
+## UI/UX 设计原则
+
+### 用户体验
+1. **一致性**：保持界面元素、交互方式的一致性
+2. **反馈**：所有用户操作都应该有明确的反馈（动画、状态变化）
+3. **错误处理**：友好的错误提示和恢复机制
+4. **加载状态**：显示加载状态，避免用户困惑（使用有趣的加载动画）
+5. **空状态**：设计友好的空状态页面
+
+### 可访问性 (A11y)
+1. **语义化 HTML**：使用正确的 HTML 标签
+2. **ARIA 属性**：为复杂组件添加 ARIA 属性
+3. **键盘导航**：支持键盘操作
+4. **颜色对比度**：确保文本和背景的对比度符合 WCAG 标准
+5. **焦点管理**：清晰的焦点指示器
+
+### 性能优化
+1. **代码分割**：使用 React.lazy 和 Suspense（Next.js 自动优化）
+2. **图片优化**：使用 Next.js Image 组件
+3. **懒加载**：对非关键内容使用懒加载
+4. **防抖节流**：对频繁触发的事件使用防抖或节流
+5. **Memo 优化**：合理使用 useMemo 和 useCallback
+
+### 移动端优化
+1. **触摸友好**：按钮和可点击区域至少 44x44px
+2. **手势支持**：支持常见手势（滑动）
+3. **视口设置**：正确设置 viewport meta 标签
+4. **字体大小**：确保移动端字体可读（最小 14px）
+5. **输入优化**：使用合适的 input type 和键盘类型
+
+## 页面设计规范
+
+### 通用页面设计原则
+
+所有页面都应遵循 Playful Warmth 设计哲学，保持一致的视觉风格和交互体验。
+
+**页面结构**：
+```
+┌─────────────────────────────────────┐
+│  Header/Navigation                  │  ← 可选，根据页面需要
+├─────────────────────────────────────┤
+│                                     │
+│  Main Content Area                  │  ← 主要内容区域
+│  - 使用 Coral & Mint 配色          │
+│  - 圆润的卡片和按钮                 │
+│  - 适当的间距和留白                 │
+│                                     │
+├─────────────────────────────────────┤
+│  Footer (可选)                      │
+└─────────────────────────────────────┘
+```
+
+**设计要点**：
+- **首屏吸引力**：使用有趣的动画或插图吸引用户注意
+- **清晰的层级**：使用标题、卡片、间距建立清晰的视觉层级
+- **明确的 CTA**：主要操作按钮醒目，使用 Coral 渐变
+- **友好的引导**：使用 emoji 和轻松的文案
+- **一致性**：所有页面使用统一的组件和交互模式
+
+### 功能模块示例：礼物查找器（首页）
+
+当前首页实现了礼物查找功能，包含四个场景流转：
+
+**Scene 1: INTRO（欢迎）**
+- 目的：营造温暖的欢迎氛围
+- 要点：动画 Gift Box、Coral + Mint 配色、清晰的 CTA
+
+**Scene 2: INPUT（输入）**
+- 目的：让输入感觉像选择有趣的选项
+- 要点：三个模式卡片、动态输入区域、友好提示
+
+**Scene 3: THINKING（思考）**
+- 目的：让等待变得有趣
+- 要点：旋转动画、进度条、有趣的小知识
+
+**Scene 4: REVEAL（结果）**
+- 目的：以喜悦展示结果
+- 要点：成功徽章、Persona 卡片、礼物推荐、操作按钮
+
+> 💡 **注意**：以上场景设计是当前首页的特定实现。新页面应根据自身功能需求设计，但要遵循相同的设计原则和风格。
+
+## 代码质量检查清单
+
+### 开发前
+- [ ] 阅读了设计文档（DESIGN_DOC.md）
+- [ ] 理解了 Playful Warmth 设计哲学
+- [ ] 了解了 Coral & Mint 色彩系统
+
+### 编码中
+- [ ] TypeScript 类型完整，无 `any`
+- [ ] 组件 Props 有类型定义和 JSDoc 注释
+- [ ] 样式使用 `.module.scss`，无全局污染
+- [ ] 使用 CSS 变量，不创建新的 SCSS 变量
+- [ ] 使用 `useI18n()` hook，不通过 props 传递 `t`
+- [ ] 圆角使用设计系统定义的值
+- [ ] 颜色使用设计系统定义的变量
+- [ ] 响应式设计已实现（移动优先）
+
+### 完成后
+- [ ] 可访问性已考虑（语义化 HTML、键盘导航）
+- [ ] 错误处理已实现
+- [ ] 加载状态已处理
+- [ ] 代码符合项目规范
+- [ ] 无 `console.log` 或调试代码
+- [ ] 性能优化已考虑
+- [ ] 移动端测试通过
+- [ ] 三种语言翻译完整
+
+## 最佳实践
+
+### 开发流程
+1. **理解需求**：明确功能和交互需求
+2. **设计优先**：遵循 Playful Warmth 设计哲学
+3. **组件化思维**：识别可复用组件
+4. **类型安全**：完整的 TypeScript 类型定义
+5. **样式模块化**：使用 SCSS Modules
+6. **国际化优先**：所有文本使用 i18n
+7. **测试验证**：多设备、多语言测试
+
+### 代码原则
+1. **单一职责**：每个组件只做一件事
+2. **可复用性**：提取可复用的逻辑和组件
+3. **可测试性**：编写易于测试的代码
+4. **可维护性**：代码清晰，注释适当
+5. **可扩展性**：考虑未来可能的需求变化
+
+## 常见问题解决
+
+### 样式问题
+**问题**：样式不生效
+- 检查是否使用了 `.module.scss`
+- 确认类名是否正确导入
+- 检查 CSS 变量是否正确
+
+**问题**：圆角不正确
+- 使用设计系统定义的圆角变量
+- 不要自定义圆角值
+
+### 国际化问题
+**问题**：翻译不显示
+- 确认使用了 `useI18n()` hook
+- 检查翻译 key 是否存在
+- 确认语言切换是否正确
+
+### 类型问题
+**问题**：TypeScript 报错
+- 检查类型定义是否完整
+- 避免使用 `any`
+- 确认导入的类型是否正确
+
+### 响应式问题
+**问题**：移动端显示不正确
+- 使用移动优先的媒体查询
+- 测试不同屏幕尺寸
+- 检查单位是否使用 rem/em
+
+## 工具和资源
+
+### 开发工具
+- **Next.js 15**: App Router
+- **React 19**: 最新特性
+- **TypeScript**: 类型安全
+- **SCSS**: 样式预处理器
+- **Supabase**: 后端服务
+
+### 设计工具
+- **Chrome DevTools**：调试和性能分析
+- **React DevTools**：组件调试
+- **Lighthouse**：性能和可访问性检查
+
+### 参考资源
+- **GiftGhost 设计文档**：`docs/DESIGN_DOC.md`
+- **i18n 编码规范**：`docs/i18n-coding-standards.md`
+- **Next.js 官方文档**：https://nextjs.org/docs
+- **React 官方文档**：https://react.dev
+- **WCAG 可访问性指南**：https://www.w3.org/WAI/WCAG21/quickref/
+
+---
+
+**记住**：GiftGhost 不仅仅是一个工具，而是一个轻松、有趣、无压力的送礼助手。每一个交互、每一个动画、每一段文字，都应该传达"俏皮的温暖"。让送礼变得简单又充满乐趣！ 🎁✨
